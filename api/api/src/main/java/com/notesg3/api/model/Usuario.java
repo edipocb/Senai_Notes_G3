@@ -1,8 +1,6 @@
 package com.notesg3.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,16 @@ import lombok.Setter;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "id_usuario", nullable = false)
+    private Integer id_usuario;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "senha", nullable = false)
+    private String senha;
 
 }
