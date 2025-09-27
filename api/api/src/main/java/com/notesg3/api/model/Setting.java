@@ -26,5 +26,5 @@ public class Setting {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario")
-    private Usuario id_usuario;
+    private Usuario usuario;
 }
