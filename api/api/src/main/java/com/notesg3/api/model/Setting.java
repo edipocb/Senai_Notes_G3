@@ -16,7 +16,7 @@ public class Setting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_setting;
+    private Integer idSetting;
 
     @Column(name = "theme", nullable = false, columnDefinition = "TEXT")
     private String theme;
@@ -26,5 +26,5 @@ public class Setting {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario")
-    private Usuario id_usuario;
+    private Usuario usuario;
 }

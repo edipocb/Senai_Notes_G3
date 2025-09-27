@@ -24,10 +24,10 @@ import lombok.Setter;
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id_tag;
+    private Integer idTag;
 
     @Column(name="nome_tag", nullable = false,columnDefinition ="Text" )
-    private String nome_tag;
+    private String nomeTag;
 
     //um Usuario varias tags
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -58,7 +58,7 @@ public class TagService {
             return null;
         }
         //3. se eu achar a tag eu atualizo
-        tagAnterior.setNome_tag(tag.getNome_tag());
+        tagAnterior.setNomeTag(tag.getNomeTag());
         return tagRepository.save(tagAnterior);
     }
 
