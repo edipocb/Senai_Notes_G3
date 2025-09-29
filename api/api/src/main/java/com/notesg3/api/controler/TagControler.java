@@ -2,6 +2,7 @@ package com.notesg3.api.controler;
 
 import com.notesg3.api.model.Tag;
 import com.notesg3.api.service.TagService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,19 @@ public class TagControler {
     }
 
     //Listar Todos
-    @GetMapping
+    @GetMapping("/api/LISTAR_TAGS")
+
+    @Operation(
+            summary = "Lista todas as Tags",
+            description = "Lista todos as Tags sem nenhuma restricao"
+    )
     public ResponseEntity<List<Tag>> ListTodos() {
         //1.Pegar a lista de todas as tags
 
         List<Tag> tag= tagService.listarTodos();
         return ResponseEntity.ok(tag);
     }
-    @PostMapping
+    @PostMapping("/CADASTRAR/")
     public ResponseEntity<Tag> CadastrarTag(
             @RequestBody Tag tag){
         //1.TENTAR CADASTRAR A TAG
@@ -35,9 +41,9 @@ public class TagControler {
                 HttpStatus.CREATED).body(
                         tagService.CadastrarTag(tag));
     }
-    //BUSCAR CLIENTE POR ID
+    //BUSCAR TAG POR ID
     //GET, POST, PUT, DELETE
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/BUSCAR_TAGS")
     //path variable --> recebe um valor no link
     //requeste body-->
     public ResponseEntity<Tag> buscarPorId(
@@ -58,7 +64,7 @@ public class TagControler {
         return ResponseEntity.ok(tag);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/DELETAR_TAGS")
     public ResponseEntity<?> deletarPorId(
             @PathVariable Integer id){
         //1. verifica se a tag existe
@@ -73,7 +79,7 @@ public class TagControler {
         //3. se existir , retorna ok
         return ResponseEntity.ok(tag);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/ATUALIZAR_TAGS")
     public ResponseEntity<?> atualizarPorId(
             @PathVariable Integer id, @RequestBody Tag tag){
         //1. tento atualizar a tag
