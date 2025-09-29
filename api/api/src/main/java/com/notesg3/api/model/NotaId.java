@@ -1,5 +1,7 @@
 package com.notesg3.api.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +10,12 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@Embeddable
 public class NotaId implements Serializable {
 
+    @Column(name = "id_nota")
     private Integer idNota;
+    @Column(name = "id_tag")
     private Integer idTag;
 
     public NotaId(){}

@@ -14,18 +14,13 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "Nota")
-@IdClass(NotaId.class)
 
 public class Nota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nota", nullable = false)
-    private Integer idNota;
-
-    @Id
-    @Column(name = "id_tag", nullable = false)
-    private Integer idTag;
+    private Integer id_nota;
 
     @Column(name = "titulo", nullable = false, columnDefinition = "TEXT",unique = true)
     private String titulo;
@@ -34,22 +29,19 @@ public class Nota {
     private String descricao;
 
     @Column(name = "data_criacao", nullable = false)
-    private OffsetDateTime dataCriacao;
+    private OffsetDateTime data_criacao;
 
     @Column(name = "data_update", nullable = false)
-    private OffsetDateTime dataUpdate;
+    private OffsetDateTime data_update;
 
     @Column(name = "status", nullable = false)
     private boolean status;
 
     @Column(name = "url_img", nullable = false, columnDefinition = "TEXT")
-    private String urlImg;
+    private String url_img;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_tag", insertable = false, updatable = false)
-    private Tag tag;
 }
