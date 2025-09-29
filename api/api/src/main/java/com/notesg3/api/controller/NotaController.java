@@ -30,7 +30,7 @@ public class NotaController {
         return ResponseEntity.ok(listaPorTag);
     }
 
-    @GetMapping("/idEEmail/{idNota}{email}")
+    //@GetMapping("/idEEmail/{idNota}{email}")
 
     @PostMapping
     public ResponseEntity<Nota> cadastrarNota(@RequestBody Nota nota) {

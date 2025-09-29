@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "Nota")
+@IdClass(NotaId.class)
 
 public class Nota {
 
@@ -21,6 +22,10 @@ public class Nota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nota", nullable = false)
     private Integer idNota;
+
+    @Id
+    @Column(name = "id_tag", nullable = false)
+    private Integer idTag;
 
     @Column(name = "titulo", nullable = false, columnDefinition = "TEXT",unique = true)
     private String titulo;
@@ -45,6 +50,6 @@ public class Nota {
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_tag")
+    @JoinColumn(name = "id_tag", insertable = false, updatable = false)
     private Tag tag;
 }
