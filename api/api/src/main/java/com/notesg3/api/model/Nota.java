@@ -20,7 +20,7 @@ public class Nota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nota", nullable = false)
-    private Integer id_nota;
+    private Integer idNota;
 
     @Column(name = "titulo", nullable = false, columnDefinition = "TEXT",unique = true)
     private String titulo;
@@ -29,19 +29,22 @@ public class Nota {
     private String descricao;
 
     @Column(name = "data_criacao", nullable = false)
-    private OffsetDateTime data_criacao;
+    private OffsetDateTime dataCriacao;
 
     @Column(name = "data_update", nullable = false)
-    private OffsetDateTime data_update;
+    private OffsetDateTime dataUpdate;
 
     @Column(name = "status", nullable = false)
     private boolean status;
 
     @Column(name = "url_img", nullable = false, columnDefinition = "TEXT")
-    private String url_img;
+    private String urlImg;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "id_tag")
+    private Tag tag;
 }

@@ -1,4 +1,3 @@
-
 package com.notesg3.api.model;
 
 
@@ -21,7 +20,7 @@ import lombok.Setter;
 @Entity
 
 //Table-Permite que voce configure a tabela
-@Table(name="Tag")
+@Table(name="tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
