@@ -43,7 +43,7 @@ public class UsuarioController {
             return ResponseEntity.ok(usuarios);
         }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<?> buscarUsuarioPorId(
     @PathVariable Integer id) {
             Usuario usuario = usuarioService.buscarPorId(id);
