@@ -24,17 +24,20 @@ public class NotaController {
         return ResponseEntity.ok(listaTodasNotas);
     }
 
-    @GetMapping("/tag/{tag}")
-    public ResponseEntity<List<Nota>> buscarNotaPorTagName(@PathVariable String tag) {
-        List<Nota> listaPorTag = notaService.buscarNotaPorTagName(tag);
-        return ResponseEntity.ok(listaPorTag);
-    }
-
-    //@GetMapping("/idEEmail/{idNota}{email}")
-
     @PostMapping
     public ResponseEntity<Nota> cadastrarNota(@RequestBody Nota nota) {
         notaService.cadastroNota(nota);
         return ResponseEntity.status(HttpStatus.CREATED).body(nota);
+    }
+
+    @GetMapping("/nota/{id}/{status}")
+    public ResponseEntity<Nota> buscarNotaIdStatus(@PathVariable Integer id, @PathVariable boolean status) {
+        Nota nota = notaService.buscarNotaIdStatus(id, status);
+
+        if(nota == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(nota);
+        }
+
+        return ResponseEntity.ok(nota);
     }
 }

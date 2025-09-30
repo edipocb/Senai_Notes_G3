@@ -21,21 +21,14 @@ public class NotaService {
         return notaRepository.findByUsuarioEmail(email);
    }
 
-   public List<Nota> buscarNotaPorTagName(String tagName) {
-        return notaRepository.findByTagNomeTagContainingIgnoreCase(tagName);
-   }
-
     //Crear Notas
     public Nota cadastroNota(Nota nota) {
         return notaRepository.save(nota);
     }
 
-    public Nota buscarNotaPorIdeEmail(Integer idNota, String email) {
-        Optional<Nota> notaExiste = notaRepository.findByIdNotaAndUsuarioEmail(idNota, email);
-
-        if (notaExiste.isEmpty()) {
-            return null;
-        }
-        return notaExiste.get();
+    //Buscar Nota por ID e Status
+    public Nota buscarNotaIdStatus(Integer id, boolean status) {
+        return notaRepository.findByIdNotaAndStatus(id, status);
     }
+
 }

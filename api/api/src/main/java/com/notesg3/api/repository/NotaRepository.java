@@ -12,9 +12,6 @@ import java.util.Optional;
 public interface NotaRepository extends JpaRepository<Nota, Integer> {
     List<Nota> findByUsuarioEmail(String email);
 
-    List<Nota> findByTagNomeTagContainingIgnoreCase(String nome);
-
-    Optional<Nota> findByIdNotaAndUsuarioEmail(Integer idNota, String email);
-
+    Nota findByIdNotaAndStatus(Integer id, boolean status);
 
 }
