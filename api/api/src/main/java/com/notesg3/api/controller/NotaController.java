@@ -1,5 +1,6 @@
 package com.notesg3.api.controller;
 
+import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.model.Nota;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,16 @@ public class NotaController {
         return ResponseEntity.ok(listaTodasNotas);
     }
 
+    @GetMapping("/emailStatus/{email}/{status}")
+    public ResponseEntity<List<Nota>>  buscarNotaPorEmailStatus(@PathVariable String email, @PathVariable boolean status) {
+        List<Nota> listaNotaEmailStatus = notaService.buscarNotaPorEmailEStatus(email, status);
+        return ResponseEntity.ok(listaNotaEmailStatus);
+    }
+
     @PostMapping
-    public ResponseEntity<Nota> cadastrarNota(@RequestBody Nota nota) {
-        notaService.cadastroNota(nota);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nota);
+    public ResponseEntity<Nota> cadastrarNota(@RequestBody CadastroNotaDTO dto) {
+        Nota notaSalvo = notaService.cadastroNota(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(notaSalvo);
     }
 
     @GetMapping("/nota/{id}/{status}")
@@ -39,5 +46,27 @@ public class NotaController {
         }
 
         return ResponseEntity.ok(nota);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Nota> buscarNotaId(@PathVariable Integer id) {
+        Nota nota = notaService.buscarNotaPorID(id);
+
+        if (nota == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(nota);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarNota(@PathVariable Integer id) {
+        Nota nota = notaService.buscarNotaPorID(id);
+
+        if (nota == null){
+            return ResponseEntity.badRequest().body("Não existe Nota com ID: " + id);
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }
