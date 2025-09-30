@@ -11,9 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class TagControler {
+public class TagController {
     private final TagService tagService;
-    public TagControler(TagService tagService) {
+    public TagController(TagService tagService) {
         this.tagService = tagService;
     }
 
