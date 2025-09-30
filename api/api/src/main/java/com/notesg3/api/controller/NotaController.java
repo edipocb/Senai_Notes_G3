@@ -1,6 +1,6 @@
 package com.notesg3.api.controller;
 
-import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
+import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.model.Nota;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ public class NotaController {
         this.notaService = notaService;
     }
 
-    @GetMapping("/email/{emailUser}")
-    public ResponseEntity<List<Nota>> buscarNotaPorEmailUsuario(@PathVariable String emailUser) {
-        List<Nota> listaTodasNotas = notaService.buscarNotaPorEmailUsuario(emailUser);
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<Nota>> buscarNotaPorEmailUsuario(@PathVariable String email) {
+        List<Nota> listaTodasNotas = notaService.buscarNotaPorEmailUsuario(email);
         return ResponseEntity.ok(listaTodasNotas);
     }
 

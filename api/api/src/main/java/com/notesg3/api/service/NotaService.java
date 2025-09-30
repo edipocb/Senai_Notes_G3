@@ -1,7 +1,7 @@
 package com.notesg3.api.service;
 
-import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
-import com.notesg3.api.dto.NotaDTO.ListaNotasPorEmailStatusDTO;
+import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
+import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotasPorEmailStatusDTO;
 import com.notesg3.api.model.Nota;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class NotaService {
 
-    private final NotaRepository notaRepository;
-    private final ConversionService conversionService;
+    private final NotaRepository notaRepository
 
     public NotaService(NotaRepository notaRepository, ConversionService conversionService) {
         this.notaRepository = notaRepository;
-        this.conversionService = conversionService;
     }
 
     //Buscar todas as notas por email
