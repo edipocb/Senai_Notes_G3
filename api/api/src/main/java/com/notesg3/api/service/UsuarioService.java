@@ -1,5 +1,6 @@
 package com.notesg3.api.service;
 
+import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,10 @@ public class UsuarioService {
         usuarioRepository = repo;
     }
 
-    public Usuario cadastrarUsuario(Usuario user) {
-        return usuarioRepository.save(user);
+    public Usuario cadastrarUsuario(CadastroUsuarioDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(dto.getEmail());
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> listarTodos() {

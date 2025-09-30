@@ -1,5 +1,6 @@
 package com.notesg3.api.controller;
 
+import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,8 +27,8 @@ public class UsuarioController {
                 summary = "Cadastrar usuario",
                 description = "Realizar o cadastro de usuario"
         )
-        public ResponseEntity<Usuario> cadastrarUsuario (
-                @RequestBody Usuario usuario
+        public ResponseEntity<CadastroUsuarioDTO> cadastrarUsuario (
+                @RequestBody CadastroUsuarioDTO usuario
         ) {
             usuarioService.cadastrarUsuario(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
