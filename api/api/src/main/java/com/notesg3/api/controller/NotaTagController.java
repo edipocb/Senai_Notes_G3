@@ -21,9 +21,10 @@ public class NotaTagController {
     }
 
     @GetMapping("/{idNota}")
-    public ResponseEntity<List<NotaTag>> buscarNotaPorIdNota(PathVariable Integer idNota){
+    public ResponseEntity<List<NotaTag>> buscarNotaPorIdNota(@PathVariable Integer idNota){
         List<NotaTag> listaTodasAsTags = notaTagService.buscarTodasTags(idNota);
 
-        return ResponseEntity.ok(listaTodasAsTags.get(0));    }
+        return ResponseEntity.ok(listaTodasAsTags);
+    }
 
 }

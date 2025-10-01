@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NotaTagRepository extends JpaRepository<NotaId, Integer> {
+public interface NotaTagRepository extends JpaRepository<NotaTag, Integer> {
 
-    List<NotaTag> findByIdNota(Integer idNota);
+    List<NotaTag> findByNotaIdIdNota(Integer idNota);
 }

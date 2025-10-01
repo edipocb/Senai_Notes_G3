@@ -16,7 +16,7 @@ public class NotaTagService {
     }
 
     public List<NotaTag> buscarTodasTags(Integer idNota) {
-        return notaTagRepository.findByIdNota(idNota);
+        return notaTagRepository.findByNotaIdIdNota(idNota);
     }
 
 }

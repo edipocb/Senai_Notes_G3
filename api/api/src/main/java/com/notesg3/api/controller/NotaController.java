@@ -1,6 +1,7 @@
 package com.notesg3.api.controller;
 
 import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
+import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotasPorEmailStatusDTO;
 import com.notesg3.api.model.Nota;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class NotaController {
     }
 
     @GetMapping("/emailStatus/{email}/{status}")
-    public ResponseEntity<List<Nota>>  buscarNotaPorEmailStatus(@PathVariable String email, @PathVariable boolean status) {
-        List<Nota> listaNotaEmailStatus = notaService.buscarNotaPorEmailEStatus(email, status);
+    public ResponseEntity<List<ListaNotasPorEmailStatusDTO>>  buscarNotaPorEmailStatus(@PathVariable String email, @PathVariable boolean status) {
+        List<ListaNotasPorEmailStatusDTO> listaNotaEmailStatus = notaService.buscarNotaPorEmailEStatus(email, status);
         return ResponseEntity.ok(listaNotaEmailStatus);
     }
 
@@ -59,6 +60,16 @@ public class NotaController {
         return ResponseEntity.ok().body(nota);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Nota> atualizarNota(@PathVariable Integer id, @RequestBody Nota nota) {
+        Nota notaExistente = notaService.atualizarNota(id, nota);
+        if (notaExistente == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(notaExistente);
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarNota(@PathVariable Integer id) {
         Nota nota = notaService.buscarNotaPorID(id);
@@ -68,5 +79,11 @@ public class NotaController {
         }
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/emailDescricao/{email}/{descricao}")
+    public ResponseEntity<List<Nota>> buscarNotaEmailAndDescricao(@PathVariable String email, @PathVariable String descricao){
+        List<Nota> listaNotas = notaService.listarNotaEmailConteudoDescricao(email, descricao);
+        return ResponseEntity.ok(listaNotas);
     }
 }

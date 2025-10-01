@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class NotaService {
 
-    private final NotaRepository notaRepository
+    private final NotaRepository notaRepository;
 
     public NotaService(NotaRepository notaRepository, ConversionService conversionService) {
         this.notaRepository = notaRepository;
@@ -26,7 +26,7 @@ public class NotaService {
    }
 
    //Buscar Notas Arquivadas
-    public List<Nota> buscarNotaPorEmailEStatus(String email, boolean status) {
+    public List<ListaNotasPorEmailStatusDTO> buscarNotaPorEmailEStatus(String email, boolean status) {
         List<Nota> lista = notaRepository.findByUsuarioEmailAndStatus(email, status);
 
         return lista.stream()
@@ -79,6 +79,20 @@ public class NotaService {
         return nota.get();
     }
 
+    //Atualizar Nota por ID
+    public Nota atualizarNota(int idNota, Nota nota) {
+        Nota notaExistente = buscarNotaPorID(idNota);
+
+        if (notaExistente == null){
+            return null;
+        }
+
+        notaExistente.setStatus(nota.isStatus());
+        notaExistente.setDataUpdate(nota.getDataUpdate());
+
+        return notaRepository.save(notaExistente);
+    }
+
     //Delete Nota por ID
     public Nota deleteNota(Integer id) {
         Nota nota = buscarNotaPorID(id);
@@ -88,6 +102,11 @@ public class NotaService {
         }
         notaRepository.delete(nota);
         return nota;
+    }
+
+    //Lista Nota por Email, e conteudo de Descricao
+    public List<Nota> listarNotaEmailConteudoDescricao(String email, String texto){
+        return notaRepository.findByUsuarioEmailAndDescricaoContaining(email, texto);
     }
 
 }

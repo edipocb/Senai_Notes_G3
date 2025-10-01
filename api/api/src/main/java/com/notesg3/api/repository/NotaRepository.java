@@ -16,4 +16,6 @@ public interface NotaRepository extends JpaRepository<Nota, Integer> {
 
     Nota findByIdNotaAndStatus(Integer id, boolean status);
 
+    List<Nota> findByUsuarioEmailAndDescricaoContaining(String email, String descricao);
+
 }
