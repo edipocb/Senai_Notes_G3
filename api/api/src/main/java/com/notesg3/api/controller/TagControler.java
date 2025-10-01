@@ -1,4 +1,4 @@
-package com.notesg3.api.controler;
+package com.notesg3.api.controller;
 
 import com.notesg3.api.model.Tag;
 import com.notesg3.api.service.TagService;

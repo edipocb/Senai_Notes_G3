@@ -1,6 +1,7 @@
 package com.notesg3.api.controller;
 
 import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
+import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,9 +40,9 @@ public class UsuarioController {
                 summary = "Lista todos os clientes",
                 description = "Lista todos os clientes sem nenhuma restricao"
         )
-    public ResponseEntity<List<Usuario>> listarUsuarios(){
-            List<Usuario> usuarios = usuarioService.listarTodos();
-            return ResponseEntity.ok(usuarios);
+    public ResponseEntity<List<ListarUsuarioDTO>> listarUsuarios(){
+            List<ListarUsuarioDTO> usuario = usuarioService.listarTodos();
+            return ResponseEntity.ok(usuario);
         }
 
     @GetMapping("/buscar/{id}")
