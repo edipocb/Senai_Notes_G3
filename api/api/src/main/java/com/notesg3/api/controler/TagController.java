@@ -68,7 +68,7 @@ public class TagController {
     public ResponseEntity<?> deletarPorId(
             @PathVariable Integer id){
         //1. verifica se a tag existe
-        Tag tag= tagService.buscarPorId(id);
+        Tag tag= tagService.deletarTagPorId(id);
 
         //2. se nao existir retorno erro
         if(tag==null){
@@ -83,7 +83,7 @@ public class TagController {
     public ResponseEntity<?> atualizarPorId(
             @PathVariable Integer id, @RequestBody Tag tag){
         //1. tento atualizar a tag
-        Tag tag1= tagService.buscarPorId(id);
+        Tag tag1= tagService.atualizarTag(id, tag);
 
         //2.se nao achar a TAG, mostra o erro
         if(tag1==null){
@@ -93,5 +93,6 @@ public class TagController {
         //3. se achar retorna ok
         return ResponseEntity.ok(tag);
     }
+
 
 }
