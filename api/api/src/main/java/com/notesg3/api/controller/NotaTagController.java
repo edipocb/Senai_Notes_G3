@@ -2,6 +2,7 @@ package com.notesg3.api.controller;
 
 import com.notesg3.api.model.NotaTag;
 import com.notesg3.api.service.NotaTagService;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +21,17 @@ public class NotaTagController {
         this.notaTagService = notaTagService;
     }
 
-    @GetMapping("/{idNota}")
-    public ResponseEntity<List<NotaTag>> buscarNotaPorIdNota(@PathVariable Integer idNota){
-        List<NotaTag> listaTodasAsTags = notaTagService.buscarTodasTags(idNota);
+    @GetMapping("/Tag/{idNota}")
+    public ResponseEntity<List<NotaTag>> buscarTagPorNota(@PathVariable Integer idNota){
+        List<NotaTag> listaTodasTagsPorNota = notaTagService.buscarTagPorNota(idNota);
 
-        return ResponseEntity.ok(listaTodasAsTags);
+        return ResponseEntity.ok(listaTodasTagsPorNota);
     }
 
+    @GetMapping("/Nota/{idTag}")
+    public ResponseEntity<List<NotaTag>> buscarNotaPorTag(@PathVariable Integer idTag){
+        List<NotaTag> listaTodasNotasPorTag = notaTagService.buscarNotaPorTag(idTag);
+
+        return ResponseEntity.ok(listaTodasNotasPorTag);
+    }
 }

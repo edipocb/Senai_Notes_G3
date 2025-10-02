@@ -11,4 +11,6 @@ import java.util.List;
 public interface NotaTagRepository extends JpaRepository<NotaTag, Integer> {
 
     List<NotaTag> findByNotaIdIdNota(Integer idNota);
+
+    List<NotaTag> findByNotaIdIdTag(Integer idTag);
 }

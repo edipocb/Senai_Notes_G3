@@ -15,6 +15,7 @@ public class NotaId implements Serializable {
 
     @Column(name = "id_nota")
     private Integer idNota;
+
     @Column(name = "id_tag")
     private Integer idTag;
 
