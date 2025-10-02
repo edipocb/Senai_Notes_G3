@@ -16,24 +16,27 @@ public class TagService {
     private final TagRepository tagRepository;
 
     public TagService(TagRepository tag) {
-        tagRepository = tag;
+        this.tagRepository = tag;
     }
 
 
 
     //Listar todas as Tags
 
-    public List<Tag> listarTodos(){
-        return tagRepository.findAll();
+    public List<Tag> findByUsuarioEmail(String email){
+
+        return tagRepository.findByUsuarioEmail(email);
     }
 
 
     //Insert Into
     public Tag CadastrarTag(Tag tag){
+
         return tagRepository.save(tag);
     }
 
     public Tag buscarPorId(Integer id){
+
         return tagRepository.findById(id).orElse(null);
     }
 

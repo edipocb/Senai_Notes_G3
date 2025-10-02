@@ -22,7 +22,8 @@ public class NotaService {
    }
 
    public List<Nota> buscarNotaPorTagName(String tagName) {
-        return notaRepository.findByTagNomeTagContainingIgnoreCase(tagName);
+        return notaRepository.findByTagNomeTagContainingIgnoreCase(
+                tagName);
    }
 
     //Crear Notas

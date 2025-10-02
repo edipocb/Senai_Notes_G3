@@ -1,4 +1,4 @@
-package com.notesg3.api.controler;
+package com.notesg3.api.controller;
 
 import com.notesg3.api.model.Tag;
 import com.notesg3.api.service.TagService;
@@ -18,16 +18,14 @@ public class TagController {
     }
 
     //Listar Todos
-    @GetMapping("/api/LISTAR_TAGS")
-
+    @GetMapping("/api/LISTAR_TAGS/{email}")
     @Operation(
             summary = "Lista todas as Tags",
             description = "Lista todos as Tags sem nenhuma restricao"
     )
-    public ResponseEntity<List<Tag>> ListTodos() {
+    public ResponseEntity<List<Tag>> listaTagPorEmail(@PathVariable String email) {
         //1.Pegar a lista de todas as tags
-
-        List<Tag> tag= tagService.listarTodos();
+        List<Tag> tag= tagService.findByUsuarioEmail(email);
         return ResponseEntity.ok(tag);
     }
     @PostMapping("/CADASTRAR/")
