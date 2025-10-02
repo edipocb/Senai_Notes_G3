@@ -15,11 +15,11 @@ public class NotaTagService {
         this.notaTagRepository = notaTagRepository;
     }
 
-    public List<NotaTag> buscarTodasTags(Integer idNota) {
+    public List<NotaTag> buscarTagPorNota(Integer idNota) {
         return notaTagRepository.findByNotaIdIdNota(idNota);
     }
 
-    public List<NotaTag> buscarNotasPorTag(Integer idTag) {
+    public List<NotaTag> buscarNotaPorTag(Integer idTag) {
         return notaTagRepository.findByNotaIdIdTag(idTag);
     }
 

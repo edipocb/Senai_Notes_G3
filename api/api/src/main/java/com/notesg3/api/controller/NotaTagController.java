@@ -2,6 +2,7 @@ package com.notesg3.api.controller;
 
 import com.notesg3.api.model.NotaTag;
 import com.notesg3.api.service.NotaTagService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/notes/notaTag")
+@Tag(name = "NOTA_TAG", description = "Operações da Tabela NOTA_TAG")
 public class NotaTagController {
 
     private final NotaTagService notaTagService;
@@ -20,18 +22,17 @@ public class NotaTagController {
         this.notaTagService = notaTagService;
     }
 
-    @GetMapping("/{idNota}")
-    public ResponseEntity<List<NotaTag>> buscarNotaPorIdNota(@PathVariable Integer idNota){
-        List<NotaTag> listaTodasAsTags = notaTagService.buscarTodasTags(idNota);
+    @GetMapping("/Tag/{idNota}")
+    public ResponseEntity<List<NotaTag>> buscarTagPorNota(@PathVariable Integer idNota){
+        List<NotaTag> listaTodasTagsPorNota = notaTagService.buscarTagPorNota(idNota);
 
-        return ResponseEntity.ok(listaTodasAsTags);
+        return ResponseEntity.ok(listaTodasTagsPorNota);
     }
 
-    @GetMapping("/ListaNotas/{idTag}")
-    public ResponseEntity<List<NotaTag>> buscarNotasPorIdTag(@PathVariable Integer idTag){
-        List<NotaTag> listaNotasPorTag = notaTagService.buscarNotasPorTag(idTag);
+    @GetMapping("/Nota/{idTag}")
+    public ResponseEntity<List<NotaTag>> buscarNotaPorTag(@PathVariable Integer idTag){
+        List<NotaTag> listaTodasNotasPorTag = notaTagService.buscarNotaPorTag(idTag);
 
-        return ResponseEntity.ok(listaNotasPorTag);
+        return ResponseEntity.ok(listaTodasNotasPorTag);
     }
-
 }
