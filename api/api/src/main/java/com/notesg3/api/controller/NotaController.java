@@ -3,6 +3,8 @@ package com.notesg3.api.controller;
 import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotasPorEmailStatusDTO;
 import com.notesg3.api.model.Nota;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/notes/nota")
+@Tag(name = "NOTA", description = "Operações da Tabela NOTA")
 public class NotaController {
 
     private final NotaService notaService;
@@ -21,6 +24,10 @@ public class NotaController {
     }
 
     @GetMapping("/email/{email}")
+    @Operation(
+            summary = "Lista de Nota por Email do Usuario",
+            description = "Retorna todas as Notas, com entrada o Email do usuario."
+    )
     public ResponseEntity<List<Nota>> buscarNotaPorEmailUsuario(@PathVariable String email) {
         List<Nota> listaTodasNotas = notaService.buscarNotaPorEmailUsuario(email);
         return ResponseEntity.ok(listaTodasNotas);

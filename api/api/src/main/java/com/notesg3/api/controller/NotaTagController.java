@@ -2,6 +2,7 @@ package com.notesg3.api.controller;
 
 import com.notesg3.api.model.NotaTag;
 import com.notesg3.api.service.NotaTagService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/notes/notaTag")
+@Tag(name = "NOTA_TAG", description = "Operações da Tabela NOTA_TAG")
 public class NotaTagController {
 
     private final NotaTagService notaTagService;
