@@ -27,4 +27,11 @@ public class NotaTagController {
         return ResponseEntity.ok(listaTodasAsTags);
     }
 
+    @GetMapping("/ListaNotas/{idTag}")
+    public ResponseEntity<List<NotaTag>> buscarNotasPorIdTag(@PathVariable Integer idTag){
+        List<NotaTag> listaNotasPorTag = notaTagService.buscarNotasPorTag(idTag);
+
+        return ResponseEntity.ok(listaNotasPorTag);
+    }
+
 }

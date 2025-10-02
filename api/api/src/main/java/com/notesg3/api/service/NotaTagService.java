@@ -19,4 +19,8 @@ public class NotaTagService {
         return notaTagRepository.findByNotaIdIdNota(idNota);
     }
 
+    public List<NotaTag> buscarNotasPorTag(Integer idTag) {
+        return notaTagRepository.findByNotaIdIdTag(idTag);
+    }
+
 }
