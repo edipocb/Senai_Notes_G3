@@ -18,23 +18,22 @@ public class TagService {
     public TagService(TagRepository tag) {
         tagRepository = tag;
     }
-
-
-
     //Listar todas as Tags
 
     public List<Tag> listarTodos(){
+
         return tagRepository.findAll();
     }
-
 
     //Insert Into
     public Tag CadastrarTag(Tag tag){
         return tagRepository.save(tag);
+
     }
 
     public Tag buscarPorId(Integer id){
         return tagRepository.findById(id).orElse(null);
+
     }
 
     public Tag deletarTagPorId(Integer id){

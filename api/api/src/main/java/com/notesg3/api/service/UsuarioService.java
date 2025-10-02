@@ -36,19 +36,11 @@ public class UsuarioService {
 
         dto.setEmail(email.getEmail());
         return dto;
-
-
-//        Usuario usuario = new Usuario();
-//        usuario.setEmail(dto.getEmail());
-//        return usuarioRepository.findAll();
     }
 
     public Usuario buscarPorId(Integer id){
         return usuarioRepository.findById(id).orElse(null);
     }
-
-
-
 
 
     public Usuario deletarUser(Integer id){
