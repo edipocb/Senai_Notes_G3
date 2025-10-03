@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,5 +44,8 @@ public class Nota {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+
+    @OneToMany
+    private List<Nota> notas;
 
 }

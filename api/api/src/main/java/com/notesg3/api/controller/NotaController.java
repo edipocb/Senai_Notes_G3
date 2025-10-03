@@ -5,6 +5,7 @@ import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotasPorEmailStatusDTO;
 import com.notesg3.api.model.Nota;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -92,5 +93,11 @@ public class NotaController {
     public ResponseEntity<List<Nota>> buscarNotaEmailAndDescricao(@PathVariable String email, @PathVariable String descricao){
         List<Nota> listaNotas = notaService.listarNotaEmailConteudoDescricao(email, descricao);
         return ResponseEntity.ok(listaNotas);
+    }
+
+    @GetMapping("/notaDescricao/{descricao}")
+    public ResponseEntity<List<Nota>> buscarNotaDescricao(@PathVariable String descricao){
+        List<Nota> listaNota = notaService.buscaConteudoDescricao(descricao);
+        return ResponseEntity.ok(listaNota);
     }
 }

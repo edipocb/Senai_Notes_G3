@@ -109,4 +109,8 @@ public class NotaService {
         return notaRepository.findByUsuarioEmailAndDescricaoContaining(email, texto);
     }
 
+    public List<Nota> buscaConteudoDescricao(String descricao){
+        return notaRepository.buscaConteudoDescricao(descricao);
+    }
+
 }

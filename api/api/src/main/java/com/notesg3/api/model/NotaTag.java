@@ -1,8 +1,6 @@
 package com.notesg3.api.model;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +16,14 @@ public class NotaTag {
 
     @EmbeddedId
     private NotaId notaId;
+
+    @MapsId("idNota")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_nota", nullable = false)
+    private Nota idNota;
+
+    @MapsId("idTag")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_tag", nullable = false)
+    private Tag idTag;
 }
