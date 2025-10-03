@@ -7,7 +7,6 @@ public class CadastroUsuarioDTO {
 
     private String email;
     private String senha;
-    private String nome;
 
 
 }
