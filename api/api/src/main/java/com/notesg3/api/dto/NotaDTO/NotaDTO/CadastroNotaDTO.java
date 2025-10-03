@@ -15,5 +15,5 @@ public class CadastroNotaDTO {
     private boolean status;
     private String urlImg;
     private Integer idUsuario;
-    List<String> tags;
+    List<String> tagsQuitar;
 }
