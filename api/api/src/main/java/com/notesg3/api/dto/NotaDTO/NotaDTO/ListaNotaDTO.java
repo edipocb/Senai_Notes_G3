@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.OffsetDateTime;
 
 @Data
-public class ListaNotasPorEmailStatusDTO {
+public class ListaNotaDTO {
 
     private Integer idNota;
     private String email;

@@ -31,9 +31,8 @@ public class Tag {
     private String nomeTag;
 
     //um Usuario varias tags
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
-
 
 }

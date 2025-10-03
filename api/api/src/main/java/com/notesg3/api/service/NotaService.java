@@ -1,12 +1,18 @@
 package com.notesg3.api.service;
 
 import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
-import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotasPorEmailStatusDTO;
+import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.model.Nota;
+import com.notesg3.api.model.Tag;
+import com.notesg3.api.model.Usuario;
+import com.notesg3.api.repository.TagRepository;
+import com.notesg3.api.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import com.notesg3.api.repository.NotaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,18 +21,27 @@ import java.util.stream.Collectors;
 public class NotaService {
 
     private final NotaRepository notaRepository;
+    private final TagRepository tagRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public NotaService(NotaRepository notaRepository, ConversionService conversionService) {
+    public NotaService(NotaRepository notaRepository, ConversionService conversionService, TagRepository tagRepository, UsuarioRepository usuarioRepository) {
         this.notaRepository = notaRepository;
+        this.tagRepository = tagRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
-    //Buscar todas as notas por email
-    public List<Nota> buscarNotaPorEmailUsuario(String email) {
-        return notaRepository.findByUsuarioEmail(email);
+    //Listar notas por email
+    public List<ListaNotaDTO> buscarNotaPorEmailUsuario(String email) {
+
+        List<Nota> lista = notaRepository.findByUsuarioEmail(email);
+
+        return lista.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
    }
 
-   //Buscar Notas Arquivadas
-    public List<ListaNotasPorEmailStatusDTO> buscarNotaPorEmailEStatus(String email, boolean status) {
+   //Listar Notas por email e status
+    public List<ListaNotaDTO> buscarNotaPorEmailEStatus(String email, boolean status) {
         List<Nota> lista = notaRepository.findByUsuarioEmailAndStatus(email, status);
 
         return lista.stream()
@@ -34,8 +49,27 @@ public class NotaService {
                 .collect(Collectors.toList());
     }
 
-    public ListaNotasPorEmailStatusDTO converterParaListagemDTO(Nota nota) {
-        ListaNotasPorEmailStatusDTO dto = new ListaNotasPorEmailStatusDTO();
+    //Listar Notas por Email, e conteudo de Descricao
+    public List<ListaNotaDTO> listarNotaEmailConteudoDescricao(String email, String texto){
+        List<Nota> lista = notaRepository.findByUsuarioEmailAndDescricaoContaining(email, texto);
+
+        return lista.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Listar Notas por conteudo de Descricao
+    public List<ListaNotaDTO> buscaConteudoDescricao(String descricao){
+        List<Nota> lista = notaRepository.buscaConteudoDescricao(descricao);
+
+        return lista.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
+    }
+
+    //Metodo Comun de conversão DTO para todas as Listas de Notas
+    public ListaNotaDTO converterParaListagemDTO(Nota nota) {
+        ListaNotaDTO dto = new ListaNotaDTO();
 
         dto.setIdNota(nota.getIdNota());
         dto.setDescricao(nota.getDescricao());
@@ -52,8 +86,10 @@ public class NotaService {
     //Crear Notas
     public Nota cadastroNota(CadastroNotaDTO dto) {
 
-        Nota nota = new Nota();
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
 
+        Nota nota = new Nota();
         nota.setTitulo(dto.getTitulo());
         nota.setDescricao(dto.getDescricao());
         nota.setDataCriacao(dto.getDataCriacao());
@@ -61,7 +97,20 @@ public class NotaService {
         nota.setStatus(dto.isStatus());
         nota.setUrlImg(dto.getUrlImg());
 
-        return notaRepository.save(nota);
+        Nota notaSalva = notaRepository.save(nota);
+
+        for(String nomeTag : dto.getTags()){
+            Tag tag = tagRepository.findByNomeTagAndIdUsuario(nomeTag, usuario.getIdUsuario())
+                    .orElseGet(() -> {
+                        Tag novaTag = new Tag();
+                        novaTag.setNomeTag(nomeTag);
+                        novaTag.setUsuario(usuario);
+
+                        return tagRepository.save(novaTag);
+                    });
+        }
+
+        return notaSalva;
     }
 
     //Buscar Nota por ID e Status
@@ -104,13 +153,5 @@ public class NotaService {
         return nota;
     }
 
-    //Lista Nota por Email, e conteudo de Descricao
-    public List<Nota> listarNotaEmailConteudoDescricao(String email, String texto){
-        return notaRepository.findByUsuarioEmailAndDescricaoContaining(email, texto);
-    }
-
-    public List<Nota> buscaConteudoDescricao(String descricao){
-        return notaRepository.buscaConteudoDescricao(descricao);
-    }
 
 }
