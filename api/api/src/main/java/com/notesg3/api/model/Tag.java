@@ -1,3 +1,4 @@
+
 package com.notesg3.api.model;
 
 
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Entity
 
 //Table-Permite que voce configure a tabela
-@Table(name="tags")
+@Table(name="Tag")
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -30,9 +31,8 @@ public class Tag {
     private String nomeTag;
 
     //um Usuario varias tags
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_usuario")
     private Usuario usuario;
-
 
 }
