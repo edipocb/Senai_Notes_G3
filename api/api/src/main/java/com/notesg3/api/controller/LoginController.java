@@ -1,6 +1,10 @@
 package com.notesg3.api.controller;
 
 import com.notesg3.api.dto.LoginRequest;
+import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
+import com.notesg3.api.dto.usuario.LoginDTO;
+import com.notesg3.api.model.Usuario;
+import com.notesg3.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,17 +26,18 @@ import java.time.Instant;
 @RestController
 // @RequestMapping: Define o prefixo da URL para todos os endpoints neste controller.
 @RequestMapping("/api/auth")
-@SecurityRequirement(name = "bearerAuth")
 public class LoginController {
 
     // 1. Injetamos os "motores" que configuramos na SecurityConfiguration.
     private final AuthenticationManager authenticationManager; // O "Gerente de Autenticação".
     private final JwtEncoder jwtEncoder; // A "Máquina de Criar Tokens".
+    private final UsuarioService usuarioService;
 
     // Injeção de dependência via construtor.
-    public LoginController(AuthenticationManager authenticationManager, JwtEncoder jwtEncoder) {
+    public LoginController(AuthenticationManager authenticationManager, JwtEncoder jwtEncoder, UsuarioService usuarioService) {
         this.authenticationManager = authenticationManager;
         this.jwtEncoder = jwtEncoder;
+        this.usuarioService = usuarioService;
     }
 
     // @PostMapping: Mapeia este método para requisições do tipo POST na URL do controller 
@@ -42,6 +47,7 @@ public class LoginController {
         // @RequestBody: Pega o corpo da requisição (JSON) e o converte para um objeto LoginRequest.
 
         // --- ETAPA 1: AUTENTICAÇÃO ---
+        ListarUsuarioDTO usuarioDTO = usuarioService.buscarPorEmail(loginRequest.getEmail());
 
         // 2. Cria um "pedido de autenticação" com o email e senha que o usuário enviou.
         // Neste ponto, as credenciais ainda não são confiáveis.
@@ -74,7 +80,11 @@ public class LoginController {
         // e o payload, e assinando tudo com nossa chave secreta.
         String token = this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
 
+        LoginDTO login = new LoginDTO();
+        login.setToken(token);
+        login.setUsuario(usuarioDTO);
         // 8. Retorna o token gerado para o cliente com um status 200 OK.
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(login);
+//        return ResponseEntity.ok(LoginDTO);
     }
 }

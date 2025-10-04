@@ -51,6 +51,18 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
+    public ListarUsuarioDTO buscarPorEmail(String email){
+        Usuario u = usuarioRepository.findByEmail(email).orElse(null);
+        if (u == null){
+            return null;
+        }
+
+        ListarUsuarioDTO dto = new ListarUsuarioDTO();
+        dto.setEmail(u.getEmail());
+        return dto;
+    }
+
+
 
     public Usuario deletarUser(Integer id){
         Usuario usuario = buscarPorId(id);
