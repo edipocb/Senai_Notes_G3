@@ -4,6 +4,7 @@ import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,15 +13,23 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
 
+
+    private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository repo) {
+    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo) {
+        this.passwordEncoder = passwordEncoder;
         usuarioRepository = repo;
     }
 
     public Usuario cadastrarUsuario(CadastroUsuarioDTO dto) {
+
         Usuario usuario = new Usuario();
         usuario.setEmail(dto.getEmail());
+        //usuario.setSenha(dto.getSenha());
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+        usuario.setSenha(senhaCriptografada);
+
         return usuarioRepository.save(usuario);
     }
 
@@ -41,6 +50,18 @@ public class UsuarioService {
     public Usuario buscarPorId(Integer id){
         return usuarioRepository.findById(id).orElse(null);
     }
+
+    public ListarUsuarioDTO buscarPorEmail(String email){
+        Usuario u = usuarioRepository.findByEmail(email).orElse(null);
+        if (u == null){
+            return null;
+        }
+
+        ListarUsuarioDTO dto = new ListarUsuarioDTO();
+        dto.setEmail(u.getEmail());
+        return dto;
+    }
+
 
 
     public Usuario deletarUser(Integer id){
