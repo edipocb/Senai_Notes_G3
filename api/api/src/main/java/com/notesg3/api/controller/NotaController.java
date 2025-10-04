@@ -1,7 +1,7 @@
 package com.notesg3.api.controller;
 
-import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
-import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotaDTO;
+import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
+import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.model.Nota;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

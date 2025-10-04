@@ -1,8 +1,8 @@
 package com.notesg3.api.controller;
 
+import com.notesg3.api.model.Tag;
 import com.notesg3.api.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/notes/tag")
-@Tag(name = "TAG", description = "Operações da Tabela TAG.")
+@io.swagger.v3.oas.annotations.tags.Tag(name = "TAG", description = "Operações da Tabela TAG.")
 public class TagController {
 
     private final TagService tagService;
@@ -29,6 +29,8 @@ public class TagController {
     )
     public ResponseEntity<Tag> cadastroTag(@RequestBody Tag tag)
     {
+        Tag tagSalvo = tagService.CadastrarTag(tag);
+
         return ResponseEntity.status(
                 HttpStatus.CREATED).body(
                 tagService.CadastrarTag(tag));

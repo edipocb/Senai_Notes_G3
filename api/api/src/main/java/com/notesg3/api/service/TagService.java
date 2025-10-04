@@ -1,7 +1,7 @@
 package com.notesg3.api.service;
 
+import com.notesg3.api.model.Tag;
 import com.notesg3.api.repository.TagRepository;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Service;
 
 @Service
