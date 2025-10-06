@@ -2,7 +2,6 @@ package com.notesg3.api.dto.NotaDTO;
 
 import lombok.Data;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
