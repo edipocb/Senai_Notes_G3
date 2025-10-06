@@ -21,7 +21,7 @@ import lombok.Setter;
 @Entity
 
 //Table-Permite que voce configure a tabela
-@Table(name="Tag")
+@Table(name="tag")
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

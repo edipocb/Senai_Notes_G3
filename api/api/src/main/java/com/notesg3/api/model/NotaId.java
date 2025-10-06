@@ -17,8 +17,8 @@ import java.util.Objects;
 public class NotaId implements Serializable {
 
     @Column(name = "id_nota", nullable = false)
-    private Integer idNotaNotaTag;
+    private Integer idNota;
 
     @Column(name = "id_tag", nullable = false)
-    private Integer idTagNotaTag;
+    private Integer idTag;
 }

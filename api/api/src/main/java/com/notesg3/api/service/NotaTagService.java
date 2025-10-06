@@ -43,8 +43,8 @@ public class NotaTagService {
 
         NotaTag notaTagSalva = new NotaTag();
 
-        notaTagSalva.setIdNotaNotaTag(nota);
-        notaTagSalva.setIdTagNotaTag(tag);
+        notaTagSalva.setIdNota(nota);
+        notaTagSalva.setIdTag(tag);
 
         return notaTagRepository.save(notaTagSalva);
 

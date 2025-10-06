@@ -121,8 +121,8 @@ public class NotaService {
 
             //Cadastro na tabela NotaTag
             NotaTag notaTagSalva = new NotaTag();
-            notaTagSalva.setIdNotaNotaTag(notaSalva);
-            notaTagSalva.setIdTagNotaTag(tag);
+            notaTagSalva.setIdNota(notaSalva);
+            notaTagSalva.setIdTag(tag);
 
             CadastroNotaTagDTO dtoNotaTag = new CadastroNotaTagDTO();
 

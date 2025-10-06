@@ -17,13 +17,13 @@ public class NotaTag {
     @EmbeddedId
     private NotaId notaId;
 
-    @MapsId("idNotaNotaTag")
+    @MapsId("id_nota")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_nota", nullable = false)
-    private Nota idNotaNotaTag;
+    private Nota idNota;
 
-    @MapsId("idTag")
+    @MapsId("id_tag")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_tag", nullable = false)
-    private Tag idTagNotaTag;
+    private Tag idTag;
 }
