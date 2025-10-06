@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,11 +42,11 @@ public class Nota {
     @Column(name = "url_img", nullable = false, columnDefinition = "TEXT")
     private String urlImg;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_tag")
-    private Tag tag;
+    @OneToMany(mappedBy = "idNota", fetch =  FetchType.LAZY)
+    private List<NotaTag> notaTag = new ArrayList<>();
+
 }

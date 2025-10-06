@@ -1,8 +1,10 @@
-package com.notesg3.api.dto.NotaDTO.NotaDTO;
+package com.notesg3.api.dto.NotaDTO;
 
+import com.notesg3.api.dto.TagDTO.ListaTagDTO;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 public class ListaNotaDTO {
@@ -15,5 +17,6 @@ public class ListaNotaDTO {
     private boolean status;
     private String urlImg;
     private Integer idUsuario;
+   // private List<ListaTagDTO> tags;
 
 }

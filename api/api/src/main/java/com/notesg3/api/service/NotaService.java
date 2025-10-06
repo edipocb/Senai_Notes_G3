@@ -1,10 +1,12 @@
 package com.notesg3.api.service;
 
-import com.notesg3.api.dto.NotaDTO.NotaDTO.CadastroNotaDTO;
-import com.notesg3.api.dto.NotaDTO.NotaDTO.ListaNotaDTO;
+import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
+import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.model.Nota;
+import com.notesg3.api.model.NotaTag;
 import com.notesg3.api.model.Tag;
 import com.notesg3.api.model.Usuario;
+import com.notesg3.api.repository.NotaTagRepository;
 import com.notesg3.api.repository.TagRepository;
 import com.notesg3.api.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +14,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import com.notesg3.api.repository.NotaRepository;
 
-import java.util.ArrayList;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,11 +25,13 @@ public class NotaService {
     private final NotaRepository notaRepository;
     private final TagRepository tagRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotaTagRepository notaTagRepository;
 
-    public NotaService(NotaRepository notaRepository, ConversionService conversionService, TagRepository tagRepository, UsuarioRepository usuarioRepository) {
+    public NotaService(NotaRepository notaRepository, ConversionService conversionService, TagRepository tagRepository, UsuarioRepository usuarioRepository, NotaTagRepository notaTagRepository) {
         this.notaRepository = notaRepository;
         this.tagRepository = tagRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notaTagRepository = notaTagRepository;
     }
 
     //Listar notas por email
@@ -79,6 +83,7 @@ public class NotaService {
         dto.setStatus(nota.isStatus());
         dto.setUrlImg(nota.getUrlImg());
         dto.setIdNota(nota.getIdNota());
+        dto.setIdUsuario(nota.getUsuario().getIdUsuario());
 
         return dto;
     }
@@ -92,15 +97,17 @@ public class NotaService {
         Nota nota = new Nota();
         nota.setTitulo(dto.getTitulo());
         nota.setDescricao(dto.getDescricao());
-        nota.setDataCriacao(dto.getDataCriacao());
-        nota.setDataUpdate(dto.getDataUpdate());
         nota.setStatus(dto.isStatus());
         nota.setUrlImg(dto.getUrlImg());
+        nota.setUsuario(usuario);
+        nota.setDataCriacao(OffsetDateTime.now());
+        nota.setDataUpdate(OffsetDateTime.now());
 
         Nota notaSalva = notaRepository.save(nota);
 
         for(String nomeTag : dto.getTags()){
-            Tag tag = tagRepository.findByNomeTagAndIdUsuario(nomeTag, usuario.getIdUsuario())
+            //Cadastramos na tabela Tag
+            Tag tag = tagRepository.findByNomeTagAndUsuarioIdUsuario(nomeTag, usuario.getIdUsuario())
                     .orElseGet(() -> {
                         Tag novaTag = new Tag();
                         novaTag.setNomeTag(nomeTag);
@@ -108,6 +115,13 @@ public class NotaService {
 
                         return tagRepository.save(novaTag);
                     });
+
+            //Cadastro na tabela NotaTag
+            NotaTag notaTagSalva = new NotaTag();
+            notaTagSalva.setIdNota(notaSalva);
+            notaTagSalva.setIdTag(tag);
+
+            notaTagRepository.save(notaTagSalva);
         }
 
         return notaSalva;
@@ -125,6 +139,8 @@ public class NotaService {
         if (nota.isEmpty()){
             return null;
         }
+
+        ListaNotaDTO dto = converterParaListagemDTO(nota.get());
         return nota.get();
     }
 

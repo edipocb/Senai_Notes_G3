@@ -1,13 +1,13 @@
 package com.notesg3.api.controller;
 
+import com.notesg3.api.dto.NotaTagDTO.CadastroNotaTagDTO;
+import com.notesg3.api.model.Nota;
 import com.notesg3.api.model.NotaTag;
 import com.notesg3.api.service.NotaTagService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +34,12 @@ public class NotaTagController {
         List<NotaTag> listaTodasNotasPorTag = notaTagService.buscarNotaPorTag(idTag);
 
         return ResponseEntity.ok(listaTodasNotasPorTag);
+    }
+
+    @PostMapping
+    public ResponseEntity<NotaTag> cadastrarNotaTag(@RequestBody CadastroNotaTagDTO dto) {
+        NotaTag notaSalvo = notaTagService.cadastrarNotaTag(dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(notaSalvo);
     }
 }
