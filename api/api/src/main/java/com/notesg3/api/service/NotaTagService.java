@@ -33,10 +33,6 @@ public class NotaTagService {
         return notaTagRepository.findByNotaIdIdTag(idTag);
     }
 
-    //public NotaTag cadastrarNotaTag(NotaTag notaTag) {
-    //    return notaTagRepository.save(notaTag);
-   // }
-
     public NotaTag cadastrarNotaTag(CadastroNotaTagDTO dto){
 
         Nota nota = notaRepository.findById(dto.getIdNota())
@@ -47,8 +43,8 @@ public class NotaTagService {
 
         NotaTag notaTagSalva = new NotaTag();
 
-        notaTagSalva.setIdNota(nota);
-        notaTagSalva.setIdTag(tag);
+        notaTagSalva.setIdNotaNotaTag(nota);
+        notaTagSalva.setIdTagNotaTag(tag);
 
         return notaTagRepository.save(notaTagSalva);
 

@@ -25,6 +25,7 @@ import lombok.Setter;
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id_tag", nullable = false)
     private Integer idTag;
 
     @Column(name="nome_tag", nullable = false,columnDefinition ="Text" )

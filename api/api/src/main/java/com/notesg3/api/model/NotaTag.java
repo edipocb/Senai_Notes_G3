@@ -11,19 +11,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "NotaTag")
+@Table(name = "nota_tag")
 public class NotaTag {
 
     @EmbeddedId
     private NotaId notaId;
 
-    @MapsId("idNota")
+    @MapsId("idNotaNotaTag")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_nota", nullable = false)
-    private Nota idNota;
+    private Nota idNotaNotaTag;
 
     @MapsId("idTag")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_tag", nullable = false)
-    private Tag idTag;
+    private Tag idTagNotaTag;
 }

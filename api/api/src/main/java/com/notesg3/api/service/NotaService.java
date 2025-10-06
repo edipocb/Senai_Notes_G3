@@ -121,16 +121,12 @@ public class NotaService {
 
             //Cadastro na tabela NotaTag
             NotaTag notaTagSalva = new NotaTag();
-            notaTagSalva.setIdNota(notaSalva);
-            notaTagSalva.setIdTag(tag);
+            notaTagSalva.setIdNotaNotaTag(notaSalva);
+            notaTagSalva.setIdTagNotaTag(tag);
 
             CadastroNotaTagDTO dtoNotaTag = new CadastroNotaTagDTO();
 
-            dtoNotaTag.setIdNota(notaTagSalva);
-
-
-            notaTagService.cadastrarNotaTag(notaTagSalva);
-            //notaTagRepository.save(notaTagSalva);
+            notaTagRepository.save(notaTagSalva);
         }
 
         return notaSalva;
