@@ -46,7 +46,7 @@ public class Nota {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "idNota", fetch =  FetchType.LAZY)
+    @OneToMany(mappedBy = "idAnotacao", fetch =  FetchType.LAZY)
     private List<NotaTag> notaTag = new ArrayList<>();
 
 }
