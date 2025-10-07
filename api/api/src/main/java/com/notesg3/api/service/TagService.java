@@ -1,8 +1,11 @@
 package com.notesg3.api.service;
 
-
+import com.notesg3.api.dto.TagDTO.CadastroTagDTO;
 import com.notesg3.api.model.Tag;
+import com.notesg3.api.model.Usuario;
 import com.notesg3.api.repository.TagRepository;
+import com.notesg3.api.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +18,11 @@ public class TagService {
     //Final constante
 
     private final TagRepository tagRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public TagService(TagRepository tag) {
-        tagRepository = tag;
+    public TagService(TagRepository tag, UsuarioRepository usuarioRepository) {
+        this.tagRepository = tag;
+        this.usuarioRepository = usuarioRepository;
     }
     //Listar todas as Tags
 
@@ -27,8 +32,18 @@ public class TagService {
     }
 
     //Insert Into
-    public Tag CadastrarTag(Tag tag){
+    public Tag cadastrarTag(CadastroTagDTO dto){
+
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                .orElseThrow(() -> new EntityNotFoundException("Usuario nao encontrado"));
+
+        Tag tag = new Tag();
+
+        tag.setNomeTag(dto.getNomeTag());
+        tag.setUsuario(usuario);
+
         return tagRepository.save(tag);
+
 
     }
 
@@ -62,6 +77,10 @@ public class TagService {
         return tagRepository.save(tagAnterior);
     }
 
+
+    public List<Tag> buscarTagPorEmail(String email){
+        return tagRepository.findByUsuarioEmail(email);
+    }
 
 
 

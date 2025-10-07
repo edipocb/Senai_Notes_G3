@@ -25,17 +25,19 @@ public class NotaTagService {
         this.tagRepository = tagRepository;
     }
 
-    public List<NotaTag> buscarTagPorNota(Integer idNota) {
-        return notaTagRepository.findByNotaIdIdNota(idNota);
-    }
-
-    public List<NotaTag> buscarNotaPorTag(Integer idTag) {
-        return notaTagRepository.findByNotaIdIdTag(idTag);
-    }
-
-    //public NotaTag cadastrarNotaTag(NotaTag notaTag) {
-    //    return notaTagRepository.save(notaTag);
-   // }
+//    public List<NotaTag> buscarTagPorNota(Integer idNota) {
+//        return notaTagRepository.findByNotaTagIdIdNota(idNota);
+//    }
+//
+//    public List<NotaTag> buscarNotaPorTag(Integer idTag) {
+//        return notaTagRepository.findByNotaTagIdIdTag(idTag);
+//    }public List<NotaTag> buscarTagPorNota(Integer idNota) {
+//        return notaTagRepository.findByNotaTagIdIdNota(idNota);
+//    }
+//
+//    public List<NotaTag> buscarNotaPorTag(Integer idTag) {
+//        return notaTagRepository.findByNotaTagIdIdTag(idTag);
+//    }
 
     public NotaTag cadastrarNotaTag(CadastroNotaTagDTO dto){
 
@@ -47,7 +49,7 @@ public class NotaTagService {
 
         NotaTag notaTagSalva = new NotaTag();
 
-        notaTagSalva.setIdNota(nota);
+        notaTagSalva.setIdAnotacao(nota);
         notaTagSalva.setIdTag(tag);
 
         return notaTagRepository.save(notaTagSalva);

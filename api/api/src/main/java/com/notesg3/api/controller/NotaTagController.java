@@ -22,19 +22,19 @@ public class NotaTagController {
         this.notaTagService = notaTagService;
     }
 
-    @GetMapping("/Tag/{idNota}")
-    public ResponseEntity<List<NotaTag>> buscarTagPorNota(@PathVariable Integer idNota){
-        List<NotaTag> listaTodasTagsPorNota = notaTagService.buscarTagPorNota(idNota);
-
-        return ResponseEntity.ok(listaTodasTagsPorNota);
-    }
-
-    @GetMapping("/Nota/{idTag}")
-    public ResponseEntity<List<NotaTag>> buscarNotaPorTag(@PathVariable Integer idTag){
-        List<NotaTag> listaTodasNotasPorTag = notaTagService.buscarNotaPorTag(idTag);
-
-        return ResponseEntity.ok(listaTodasNotasPorTag);
-    }
+//    @GetMapping("/Tag/{idNota}")
+//    public ResponseEntity<List<NotaTag>> buscarTagPorNota(@PathVariable Integer idNota){
+//        List<NotaTag> listaTodasTagsPorNota = notaTagService.buscarTagPorNota(idNota);
+//
+//        return ResponseEntity.ok(listaTodasTagsPorNota);
+//    }
+//
+//    @GetMapping("/Nota/{idTag}")
+//    public ResponseEntity<List<NotaTag>> buscarNotaPorTag(@PathVariable Integer idTag){
+//        List<NotaTag> listaTodasNotasPorTag = notaTagService.buscarNotaPorTag(idTag);
+//
+//        return ResponseEntity.ok(listaTodasNotasPorTag);
+//    }
 
     @PostMapping
     public ResponseEntity<NotaTag> cadastrarNotaTag(@RequestBody CadastroNotaTagDTO dto) {

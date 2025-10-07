@@ -17,6 +17,6 @@ public class ListaNotaDTO {
     private boolean status;
     private String urlImg;
     private Integer idUsuario;
-   // private List<ListaTagDTO> tags;
+    private List<ListaTagDTO> tags;
 
 }

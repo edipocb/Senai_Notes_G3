@@ -2,10 +2,8 @@ package com.notesg3.api.service;
 
 import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
-import com.notesg3.api.model.Nota;
-import com.notesg3.api.model.NotaTag;
-import com.notesg3.api.model.Tag;
-import com.notesg3.api.model.Usuario;
+import com.notesg3.api.dto.NotaTagDTO.CadastroNotaTagDTO;
+import com.notesg3.api.model.*;
 import com.notesg3.api.repository.NotaTagRepository;
 import com.notesg3.api.repository.TagRepository;
 import com.notesg3.api.repository.UsuarioRepository;
@@ -26,12 +24,14 @@ public class NotaService {
     private final TagRepository tagRepository;
     private final UsuarioRepository usuarioRepository;
     private final NotaTagRepository notaTagRepository;
+    private final NotaTagService notaTagService;
 
-    public NotaService(NotaRepository notaRepository, ConversionService conversionService, TagRepository tagRepository, UsuarioRepository usuarioRepository, NotaTagRepository notaTagRepository) {
+    public NotaService(NotaRepository notaRepository, ConversionService conversionService, TagRepository tagRepository, UsuarioRepository usuarioRepository, NotaTagRepository notaTagRepository, NotaTagService notaTagService) {
         this.notaRepository = notaRepository;
         this.tagRepository = tagRepository;
         this.usuarioRepository = usuarioRepository;
         this.notaTagRepository = notaTagRepository;
+        this.notaTagService = notaTagService;
     }
 
     //Listar notas por email
@@ -117,8 +117,13 @@ public class NotaService {
                     });
 
             //Cadastro na tabela NotaTag
+            NotaTagId notaTagId = new NotaTagId();
+            notaTagId.setIdAnotacao(notaSalva.getIdNota());
+            notaTagId.setIdTag(notaTagId.getIdTag());
+
             NotaTag notaTagSalva = new NotaTag();
-            notaTagSalva.setIdNota(notaSalva);
+            notaTagSalva.setId(notaTagId);
+            notaTagSalva.setIdAnotacao(notaSalva);
             notaTagSalva.setIdTag(tag);
 
             notaTagRepository.save(notaTagSalva);

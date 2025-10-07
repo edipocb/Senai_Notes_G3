@@ -21,10 +21,11 @@ import lombok.Setter;
 @Entity
 
 //Table-Permite que voce configure a tabela
-@Table(name="Tag")
+@Table(name="tag")
 public class Tag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id_tag", nullable = false)
     private Integer idTag;
 
     @Column(name="nome_tag", nullable = false,columnDefinition ="Text" )

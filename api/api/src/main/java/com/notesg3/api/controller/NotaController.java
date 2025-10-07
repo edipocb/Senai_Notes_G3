@@ -125,7 +125,7 @@ public class NotaController {
             description = "Delete Nota por Id."
     )
     public ResponseEntity<?> deletarNota(@PathVariable Integer id) {
-        Nota nota = notaService.buscarNotaPorID(id);
+        Nota nota = notaService.deleteNota(id);
 
         if (nota == null){
             return ResponseEntity.badRequest().body("Não existe Nota com ID: " + id);
