@@ -81,9 +81,4 @@ public class TagService {
     public List<Tag> buscarTagPorEmail(String email){
         return tagRepository.findByUsuarioEmail(email);
     }
-
-
-
-
-
 }
