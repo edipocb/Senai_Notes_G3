@@ -3,6 +3,8 @@ package com.notesg3.api.service;
 import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.dto.NotaTagDTO.CadastroNotaTagDTO;
+import com.notesg3.api.dto.TagDTO.ListaTagDTO;
+import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
 import com.notesg3.api.model.*;
 import com.notesg3.api.repository.NotaTagRepository;
 import com.notesg3.api.repository.TagRepository;
@@ -11,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import com.notesg3.api.repository.NotaRepository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -83,8 +86,28 @@ public class NotaService {
         dto.setStatus(nota.isStatus());
         dto.setUrlImg(nota.getUrlImg());
         dto.setIdNota(nota.getIdNota());
-        dto.setIdUsuario(nota.getUsuario().getIdUsuario());
 
+        dto.setUsuario(convertUsuarioToDto(nota.getUsuario()));
+
+        List<ListaTagDTO> tagsDto = nota.getNotaTag().stream()
+                .map(tagAnotacao -> convertTagToDto(tagAnotacao.getIdTag()))
+                .collect(Collectors.toList());
+        dto.setTag(tagsDto);
+
+        return dto;
+    }
+
+    private ListarUsuarioDTO convertUsuarioToDto(Usuario usuario) {
+        ListarUsuarioDTO dto = new ListarUsuarioDTO();
+        dto.setId(usuario.getIdUsuario());
+        dto.setEmail(usuario.getEmail());
+        return dto;
+    }
+
+    private ListaTagDTO convertTagToDto(Tag tag) {
+        ListaTagDTO dto = new ListaTagDTO();
+        dto.setIdTag(tag.getIdTag());
+        dto.setNomeTag(tag.getNomeTag());
         return dto;
     }
 
@@ -116,7 +139,12 @@ public class NotaService {
                         return tagRepository.save(novaTag);
                     });
 
-            //Cadastro na tabela NotaTag
+
+
+            //Cadastro na tabela NotaTag - Intermediaria
+
+
+
             NotaTagId notaTagId = new NotaTagId();
             notaTagId.setIdAnotacao(notaSalva.getIdNota());
             notaTagId.setIdTag(notaTagId.getIdTag());
@@ -174,5 +202,11 @@ public class NotaService {
         return nota;
     }
 
+    public List<ListaNotaDTO> listarAnotacoesPorEmail (String email) {
+        List<Nota> anotacoes = notaRepository.findByUsuarioEmailCompleto(email);
 
+        return anotacoes.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
+    }
 }

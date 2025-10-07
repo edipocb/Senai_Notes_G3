@@ -4,9 +4,12 @@ import com.notesg3.api.dto.NotaDTO.CadastroNotaDTO;
 import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.model.Nota;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.notesg3.api.service.NotaService;
 
@@ -24,9 +27,7 @@ public class NotaController {
     }
 
     @GetMapping("/email/{email}")
-    @Operation(
-            summary = "Lista de Nota por Email do Usuario.",
-            description = "Retorna todas as Notas por Email."
+    @Operation(summary = "Lista de Nota por Email do Usuario.", description = "Retorna todas as Notas por Email."
     )
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaPorEmailUsuario(@PathVariable String email) {
         List<ListaNotaDTO> listaNotaPorEmail = notaService.buscarNotaPorEmailUsuario(email);
@@ -34,9 +35,7 @@ public class NotaController {
     }
 
     @GetMapping("/emailStatus/{email}/{status}")
-    @Operation(
-            summary = "Lista de Nota por Email e Status.",
-            description = "Retorna todas as Notas por Email e Status."
+    @Operation(summary = "Lista de Nota por Email e Status.", description = "Retorna todas as Notas por Email e Status."
     )
     public ResponseEntity<List<ListaNotaDTO>>  buscarNotaPorEmailStatus(@PathVariable String email, @PathVariable boolean status) {
         List<ListaNotaDTO> listaNotaPorEmailStatus = notaService.buscarNotaPorEmailEStatus(email, status);
@@ -44,9 +43,7 @@ public class NotaController {
     }
 
     @GetMapping("/emailDescricao/{email}/{descricao}")
-    @Operation(
-            summary = "Lista de Nota por Email e conteudo na Descricao.",
-            description = "Retorna todas as Notas por Email e conteudo na descricao."
+    @Operation(summary = "Lista de Nota por Email e conteudo na Descricao.", description = "Retorna todas as Notas por Email e conteudo na descricao."
     )
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaEmailAndDescricao(@PathVariable String email, @PathVariable String descricao){
         List<ListaNotaDTO> listaNotas = notaService.listarNotaEmailConteudoDescricao(email, descricao);
@@ -54,9 +51,7 @@ public class NotaController {
     }
 
     @GetMapping("/notaDescricao/{descricao}")
-    @Operation(
-            summary = "Lista de Nota por conteudo na Descricao.",
-            description = "Retorna todas as Notas por conteudo na Descricao."
+    @Operation(summary = "Lista de Nota por conteudo na Descricao.", description = "Retorna todas as Notas por conteudo na Descricao."
     )
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaDescricao(@PathVariable String descricao){
         List<ListaNotaDTO> listaNota = notaService.buscaConteudoDescricao(descricao);
@@ -64,9 +59,7 @@ public class NotaController {
     }
 
     @PostMapping
-    @Operation(
-            summary = "Cadastro de Nota.",
-            description = "Cadastro de Nota."
+    @Operation(summary = "Cadastro de Nota.", description = "Cadastro de Nota."
     )
     public ResponseEntity<Nota> cadastrarNota(@RequestBody CadastroNotaDTO dto) {
         Nota notaSalvo = notaService.cadastroNota(dto);
@@ -75,9 +68,7 @@ public class NotaController {
     }
 
     @GetMapping("/nota/{id}/{status}")
-    @Operation(
-            summary = "Buscar Nota por Id e Status.",
-            description = "Buscar Nota por Id e Status."
+    @Operation(summary = "Buscar Nota por Id e Status.", description = "Buscar Nota por Id e Status."
     )
     public ResponseEntity<Nota> buscarNotaIdStatus(@PathVariable Integer id, @PathVariable boolean status) {
         Nota nota = notaService.buscarNotaIdStatus(id, status);
@@ -90,9 +81,7 @@ public class NotaController {
     }
 
     @GetMapping("/{id}")
-    @Operation(
-            summary = "Buscar Nota por Id.",
-            description = "Buscar Nota por Id."
+    @Operation(summary = "Buscar Nota por Id.", description = "Buscar Nota por Id."
     )
     public ResponseEntity<Nota> buscarNotaId(@PathVariable Integer id) {
         Nota nota = notaService.buscarNotaPorID(id);
@@ -105,9 +94,7 @@ public class NotaController {
     }
 
     @PutMapping("/{id}")
-    @Operation(
-            summary = "Atualizar Nota por Id.",
-            description = "Atualizar Nota por Id."
+    @Operation(summary = "Atualizar Nota por Id.", description = "Atualizar Nota por Id."
     )
     public ResponseEntity<Nota> atualizarNota(@PathVariable Integer id, @RequestBody Nota nota) {
         Nota notaExistente = notaService.atualizarNota(id, nota);
@@ -118,9 +105,7 @@ public class NotaController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(
-            summary = "Delete Nota por Id.",
-            description = "Delete Nota por Id."
+    @Operation(summary = "Delete Nota por Id.", description = "Delete Nota por Id."
     )
     public ResponseEntity<?> deletarNota(@PathVariable Integer id) {
         Nota nota = notaService.deleteNota(id);
@@ -132,4 +117,11 @@ public class NotaController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/JPQL/{email}")
+    @PreAuthorize("#email == authentication.getName()")
+    @Operation(summary = "Lista as anotações de um usuário", description = "Retorna todas as anotações de um usuário específico, buscando pelo e-mail.")
+    @ApiResponse(responseCode = "200", description = "Operação bem-sucedida (pode retornar uma lista vazia se o usuário não tiver anotações)")
+    public ResponseEntity<List<ListaNotaDTO>> listarTodasAnotacoes(@PathVariable String email, Authentication authentication) {
+        return ResponseEntity.ok(notaService.listarAnotacoesPorEmail(email));
+    }
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ListarUsuarioDTO {
-
+    private Integer id;
     private String email;
 }
