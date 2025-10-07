@@ -81,7 +81,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-ui.html").permitAll()
 
-                        // Permite TODAS as requisições para QUALQUER endpoint.
+//                         Permite TODAS as requisições para QUALQUER endpoint.
 //                        .anyRequest().permitAll()\
                         .anyRequest().authenticated()
 
