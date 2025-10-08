@@ -3,6 +3,7 @@ package com.notesg3.api.controller;
 import com.notesg3.api.model.Setting;
 import com.notesg3.api.service.SettingService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ListarSettings")
 @Tag(name = "Setting", description = "Configuracoes")
+@SecurityRequirement(name = "bearerAuth")
 public class SettingController {
 
     private SettingService settingService;

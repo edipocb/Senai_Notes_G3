@@ -59,6 +59,7 @@ public class UsuarioService {
 
         ListarUsuarioDTO dto = new ListarUsuarioDTO();
         dto.setEmail(u.getEmail());
+        dto.setId(u.getIdUsuario());
         return dto;
     }
 

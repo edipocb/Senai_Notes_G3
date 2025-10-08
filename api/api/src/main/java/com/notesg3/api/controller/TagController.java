@@ -5,6 +5,7 @@ import com.notesg3.api.model.Tag;
 import com.notesg3.api.service.NotaService;
 import com.notesg3.api.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "bearerAuth")
 //@SecurityRequirement(name = "bearerAuth")
 @io.swagger.v3.oas.annotations.tags.Tag(name = "TAG", description = "Operações da Tabela TAG.")
 public class TagController {
