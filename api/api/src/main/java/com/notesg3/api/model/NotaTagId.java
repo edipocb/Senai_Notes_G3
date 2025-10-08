@@ -16,7 +16,6 @@ import java.util.Objects;
 @Embeddable
 public class NotaTagId implements Serializable {
 
-    private static final long serialVersionUID = 4601822686591325524L;
     @Column(name = "id_anotacao", nullable = false)
     private Integer idAnotacao;
 
