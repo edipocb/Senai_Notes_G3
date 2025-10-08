@@ -67,7 +67,7 @@ public class UsuarioController {
             @PathVariable Integer id) {
             Usuario usuario = usuarioService.deletarUser(id);
             if (usuario == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuerio nao encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado");
             }
             return ResponseEntity.ok(usuario);
     }

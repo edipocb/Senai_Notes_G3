@@ -62,8 +62,6 @@ public class UsuarioService {
         return dto;
     }
 
-
-
     public Usuario deletarUser(Integer id){
         Usuario usuario = buscarPorId(id);
         if (usuario == null){
