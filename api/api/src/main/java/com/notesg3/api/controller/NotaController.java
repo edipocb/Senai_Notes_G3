@@ -86,7 +86,7 @@ public class NotaController {
     @Operation(summary = "Buscar Nota por Id.", description = "Buscar Nota por Id."
     )
     public ResponseEntity<Nota> buscarNotaId(@PathVariable Integer id) {
-        Nota nota = notaService.buscarNotaPorID(id);
+        Nota nota = notaService.buscarNotaPorID(id); corregir aqui
 
         if (nota == null){
             return ResponseEntity.notFound().build();
