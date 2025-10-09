@@ -43,6 +43,7 @@ public class UsuarioService {
     public ListarUsuarioDTO converterParaListagemDTO(Usuario email) {
         ListarUsuarioDTO dto = new ListarUsuarioDTO();
 
+        dto.setId(email.getIdUsuario());;
         dto.setEmail(email.getEmail());
         return dto;
     }
@@ -58,6 +59,7 @@ public class UsuarioService {
         }
 
         ListarUsuarioDTO dto = new ListarUsuarioDTO();
+        dto.setId(u.getIdUsuario());
         dto.setEmail(u.getEmail());
         return dto;
     }

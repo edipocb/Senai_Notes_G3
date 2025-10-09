@@ -127,7 +127,7 @@ public class NotaService {
         nota.setDataUpdate(OffsetDateTime.now());
 
         Nota notaSalva = notaRepository.save(nota);
-
+        //Tag novaTag = new Tag();
         for(String nomeTag : dto.getTags()){
             //Cadastramos na tabela Tag
             Tag tag = tagRepository.findByNomeTagAndUsuarioIdUsuario(nomeTag, usuario.getIdUsuario())
@@ -139,12 +139,7 @@ public class NotaService {
                         return tagRepository.save(novaTag);
                     });
 
-
-
             //Cadastro na tabela NotaTag - Intermediaria
-
-
-
             NotaTagId notaTagId = new NotaTagId();
             notaTagId.setIdAnotacao(notaSalva.getIdNota());
             notaTagId.setIdTag(notaTagId.getIdTag());

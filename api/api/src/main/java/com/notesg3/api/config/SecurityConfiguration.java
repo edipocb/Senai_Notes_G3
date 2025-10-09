@@ -82,8 +82,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-ui.html").permitAll()
 
 //                         Permite TODAS as requisições para QUALQUER endpoint.
-//                        .anyRequest().permitAll()\
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
+//                        .anyRequest().authenticated()
 
                 ) .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
