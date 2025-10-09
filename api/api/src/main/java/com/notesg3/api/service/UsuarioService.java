@@ -18,14 +18,14 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
-    private final EmailsService emailsService;
+    private final EmailService emailService;
     private final SettingService settingService;
 
 
-    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailsService emailsService, SettingService settingService) {
+    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailService emailService, SettingService settingService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = repo;
-        this.emailsService = emailsService;
+        this.emailService = emailService;
         this.settingService = settingService;
     }
 
@@ -35,7 +35,7 @@ public class UsuarioService {
             String senhaCodificada = passwordEncoder.encode(novaSenha);
             usuario.setSenha(senhaCodificada);
             usuarioRepository.save(usuario);
-            emailsService.enviarEmail(usuario.getEmail(), novaSenha);
+            emailService.enviarEmail(usuario.getEmail(), novaSenha);
         });
     }
 
