@@ -160,8 +160,8 @@ public class NotaService {
         return notaRepository.findByIdNotaAndStatus(id, status);
     }
 
-    //Buscar Nota por ID
-    public Nota buscarNotaPorID(Integer id) {
+    //Buscar Nota por ID //aqui
+    public ListaNotaDTO buscarNotaPorID(Integer id) {
         Optional<Nota> nota =  notaRepository.findById(id);
 
         if (nota.isEmpty()){
@@ -169,32 +169,32 @@ public class NotaService {
         }
 
         ListaNotaDTO dto = converterParaListagemDTO(nota.get());
-        return nota.get();
+        return dto;
     }
 
     //Atualizar Nota por ID
-    public Nota atualizarNota(int idNota, Nota nota) {
-        Nota notaExistente = buscarNotaPorID(idNota);
+    public Nota atualizarNota(Integer idNota, Nota nota) {
+        Optional<Nota> notaExistente = notaRepository.findById(idNota);
 
-        if (notaExistente == null){
+        if (notaExistente.isEmpty()){
             return null;
         }
 
-        notaExistente.setStatus(nota.isStatus());
-        notaExistente.setDataUpdate(nota.getDataUpdate());
+        notaExistente.get().setStatus(nota.isStatus());
+        notaExistente.get().setDataUpdate(nota.getDataUpdate());
 
-        return notaRepository.save(notaExistente);
+        return notaRepository.save(notaExistente.get());
     }
 
     //Delete Nota por ID
     public Nota deleteNota(Integer id) {
-        Nota nota = buscarNotaPorID(id);
+        Optional<Nota> notaExistente = notaRepository.findById(id);
 
-        if (nota == null){
+        if (notaExistente.isEmpty()){
             return null;
         }
-        notaRepository.delete(nota);
-        return nota;
+        notaRepository.delete(notaExistente.get());
+        return notaExistente.get();
     }
 
     public List<ListaNotaDTO> listarAnotacoesPorEmail (String email) {

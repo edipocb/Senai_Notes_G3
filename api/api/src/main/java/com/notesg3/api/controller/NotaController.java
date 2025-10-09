@@ -82,11 +82,11 @@ public class NotaController {
         return ResponseEntity.ok(nota);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //aqui
     @Operation(summary = "Buscar Nota por Id.", description = "Buscar Nota por Id."
     )
-    public ResponseEntity<Nota> buscarNotaId(@PathVariable Integer id) {
-        Nota nota = notaService.buscarNotaPorID(id); corregir aqui
+    public ResponseEntity<ListaNotaDTO> buscarNotaId(@PathVariable Integer id) {
+        ListaNotaDTO nota = notaService.buscarNotaPorID(id);
 
         if (nota == null){
             return ResponseEntity.notFound().build();
