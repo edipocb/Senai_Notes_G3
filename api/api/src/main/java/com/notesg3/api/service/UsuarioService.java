@@ -4,6 +4,7 @@ import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.repository.UsuarioRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,23 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
+    private final EmailService emailService;
 
-    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo) {
+
+    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         usuarioRepository = repo;
+        this.emailService = emailService;
+    }
+
+    public void recuperarSenha(String email) {
+        usuarioRepository.findByEmail(email).ifPresent(usuario -> {
+            String novaSenha = RandomStringUtils.randomAlphanumeric(10);
+            String senhaCodificada = passwordEncoder.encode(novaSenha);
+            usuario.setSenha(senhaCodificada);
+            usuarioRepository.save(usuario);
+            emailService.enviarEmail(usuario.getEmail(), novaSenha);
+        });
     }
 
     public Usuario cadastrarUsuario(CadastroUsuarioDTO dto) {

@@ -2,11 +2,13 @@ package com.notesg3.api.controller;
 
 import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
+import com.notesg3.api.dto.usuario.ResetarSenhaDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,12 @@ public class UsuarioController {
         public UsuarioController(UsuarioService service) {
             usuarioService = service;
         }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ResetarSenhaDTO resetarSenhaDTO) {
+        usuarioService.recuperarSenha(resetarSenhaDTO.getEmail());
+        return ResponseEntity.ok("Se um usuário com este e-mail existir, uma nova senha será enviada.");
+    }
+
 
         @PostMapping("/cadastrarUser")
         @Operation(
