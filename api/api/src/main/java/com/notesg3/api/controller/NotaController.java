@@ -5,6 +5,7 @@ import com.notesg3.api.dto.NotaDTO.ListaNotaDTO;
 import com.notesg3.api.model.Nota;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/notes/nota")
 @Tag(name = "NOTA", description = "Operações da Tabela NOTA.")
+@SecurityRequirement(name = "bearerAuth")
 public class NotaController {
 
     private final NotaService notaService;

@@ -139,12 +139,7 @@ public class NotaService {
                         return tagRepository.save(novaTag);
                     });
 
-
-
             //Cadastro na tabela NotaTag - Intermediaria
-
-
-
             NotaTagId notaTagId = new NotaTagId();
             notaTagId.setIdAnotacao(notaSalva.getIdNota());
             notaTagId.setIdTag(notaTagId.getIdTag());
