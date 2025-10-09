@@ -19,8 +19,12 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +39,30 @@ public class SecurityConfiguration {
     // BEANS: Os "Motores" da Nossa Segurança
 
     // 1. O GERADOR DE TOKENS (JWT Encoder)
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // 1. Defina a origem do seu frontend (4200 é o padrão do Angular)
+        config.setAllowedOrigins(List.of("http://localhost:4200","https://senai-notes-angular-direto.vercel.app/login"));
+
+                // 2. Defina os métodos HTTP permitidos
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // 3. Permita todos os cabeçalhos
+        config.setAllowedHeaders(List.of("*"));
+
+        // 4. Permita o envio de credenciais (tokens, cookies)
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Aplica as configurações a todas as rotas da API ("/**")
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
+
     @Bean
     public JwtEncoder jwtEncoder() {
         // Cria a chave de criptografia a partir da nossa string secreta.
@@ -74,19 +102,20 @@ public class SecurityConfiguration {
         http
                 // Desativa a proteção CSRF, que não é necessária para APIs stateless.
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 // Configura a gestão de sessão para ser stateless (sem estado).
                 // O servidor não guarda informações do usuário entre as requisições.
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/api/Usuarios/forgot-password").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/api/Usuarios/cadastrarUser/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-ui.html").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/Usuarios/cadastrarUser/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/usuario/forgot-password").permitAll()
 
-//                         Permite TODAS as requisições para QUALQUER endpoint.
-                          .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
+                        // Permite TODAS as requisições para QUALQUER endpoint.
+//                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
 
                 ) .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 

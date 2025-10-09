@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "bearerAuth")
 //@SecurityRequirement(name = "bearerAuth")
 @io.swagger.v3.oas.annotations.tags.Tag(name = "TAG", description = "Operações da Tabela TAG.")
 @SecurityRequirement(name = "bearerAuth")

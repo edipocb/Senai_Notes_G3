@@ -20,6 +20,6 @@ public class NotaTag {
 
     @MapsId("idTag")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_tag", nullable = false)
+    @JoinColumn(name = "id_tag")
     private Tag idTag;
 }

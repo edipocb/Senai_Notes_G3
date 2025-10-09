@@ -84,7 +84,7 @@ public class LoginController {
         login.setToken(token);
         login.setUsuario(usuarioDTO);
         // 8. Retorna o token gerado para o cliente com um status 200 OK.
+       // return ResponseEntity.ok(login);
         return ResponseEntity.ok(login);
-//        return ResponseEntity.ok(LoginDTO);
     }
 }

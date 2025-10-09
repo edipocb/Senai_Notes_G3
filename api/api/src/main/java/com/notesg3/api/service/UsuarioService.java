@@ -21,11 +21,22 @@ public class UsuarioService {
     private final EmailsService emailsService;
     private final SettingService settingService;
 
+
     public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailsService emailsService, SettingService settingService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = repo;
         this.emailsService = emailsService;
         this.settingService = settingService;
+    }
+
+    public void recuperarSenha(String email) {
+        usuarioRepository.findByEmail(email).ifPresent(usuario -> {
+            String novaSenha = RandomStringUtils.randomAlphanumeric(10);
+            String senhaCodificada = passwordEncoder.encode(novaSenha);
+            usuario.setSenha(senhaCodificada);
+            usuarioRepository.save(usuario);
+            emailsService.enviarEmail(usuario.getEmail(), novaSenha);
+        });
     }
 
     public Usuario cadastrarUsuario(CadastroUsuarioDTO dto) {
@@ -88,13 +99,4 @@ public class UsuarioService {
         return usuario;
     }
 
-    public void recuperarSenha(String email) {
-        usuarioRepository.findByEmail(email).ifPresent(usuario -> {
-            String novaSenha = RandomStringUtils.randomAlphanumeric(10);
-            String senhaCodificada = passwordEncoder.encode(novaSenha);
-            usuario.setSenha(senhaCodificada);
-            usuarioRepository.save(usuario);
-            emailsService.enviarEmail(usuario.getEmail(), novaSenha);
-        });
-    }
 }

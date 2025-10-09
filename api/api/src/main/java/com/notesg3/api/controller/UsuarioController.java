@@ -2,7 +2,7 @@ package com.notesg3.api.controller;
 
 import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
-import com.notesg3.api.dto.usuario.ResetSenhaDTO;
+import com.notesg3.api.dto.usuario.ResetarSenhaDTO;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +27,13 @@ public class UsuarioController {
             usuarioService = service;
         }
 
-            @PostMapping("/cadastrarUser")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ResetarSenhaDTO resetarSenhaDTO) {
+        usuarioService.recuperarSenha(resetarSenhaDTO.getEmail());
+        return ResponseEntity.ok("Se um usuário com este e-mail existir, uma nova senha será enviada.");
+    }
+
+        @PostMapping("/cadastrarUser")
         @Operation(
                 summary = "Cadastrar usuario",
                 description = "Realizar o cadastro de usuario"
@@ -74,10 +80,5 @@ public class UsuarioController {
             return ResponseEntity.ok(usuario);
     }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ResetSenhaDTO resetarSenhaDTO) {
-        usuarioService.recuperarSenha(resetarSenhaDTO.getEmail());
-        return ResponseEntity.ok("Se um usuário com este e-mail existir, uma nova senha será enviada.");
-    }
 }
 
