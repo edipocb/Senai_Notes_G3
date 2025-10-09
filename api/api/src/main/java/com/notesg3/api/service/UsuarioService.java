@@ -39,7 +39,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
 
         CadastroSettingDTO dtoSetting = new CadastroSettingDTO();
-        dtoSetting.setUsuario(usuario);
+        dtoSetting.setIdUsuario(usuario.getIdUsuario());
         dtoSetting.setTheme("Dark");
         dtoSetting.setFont("Arial");
 

@@ -7,6 +7,6 @@ import lombok.Data;
 public class CadastroSettingDTO {
     private String theme;
     private String font;
-    private Usuario usuario;
+    private Integer idUsuario;
 
 }

@@ -52,10 +52,10 @@ public class SettingController {
         return ResponseEntity.ok().body(settingDTO);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{idSetting}")
     @Operation(summary = "Atualizar Setting por Id.", description = "Atualizar configuraçóes por Id.")
-    public ResponseEntity<Setting> atualizarSetting(@PathVariable Integer id, @RequestBody CadastroSettingDTO dto) {
-        Setting setting = settingService.atualizaSetting(id, dto);
+    public ResponseEntity<Setting> atualizarSetting(@PathVariable Integer idSetting, @RequestBody CadastroSettingDTO dto) {
+        Setting setting = settingService.atualizaSetting(idSetting, dto);
 
         if (setting == null) {
             return ResponseEntity.notFound().build();

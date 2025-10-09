@@ -56,7 +56,7 @@ public class SettingService {
     }
 
     public Setting cadastroSetting(CadastroSettingDTO dto) {
-        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getIdUsuario())
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
 
         Setting setting = new Setting();
@@ -82,6 +82,9 @@ public class SettingService {
 
     public Setting atualizaSetting(Integer id, CadastroSettingDTO dto) {
 
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
+
         Optional<Setting> setting = settingRepository.findById(id);
 
         if (setting.isEmpty()) {
@@ -90,6 +93,7 @@ public class SettingService {
 
         setting.get().setTheme(dto.getTheme());
         setting.get().setFont(dto.getFont());
+        setting.get().setUsuario(usuario);
 
         return settingRepository.save(setting.get());
     }
