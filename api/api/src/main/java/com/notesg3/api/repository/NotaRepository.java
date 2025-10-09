@@ -19,8 +19,14 @@ public interface NotaRepository extends JpaRepository<Nota, Integer> {
 
     List<Nota> findByUsuarioEmailAndDescricaoContaining(String email, String descricao);
 
-    @Query(value = "SELECT * FROM notes.nota a where a.descricao ILIKE %:texto% or a.titulo ILIKE %:texto%", nativeQuery = true)
-    List<Nota> buscaConteudoDescricao(String texto);
+   // @Query(value = "SELECT * FROM notes.nota a where a.descricao ILIKE %:texto% or a.titulo ILIKE %:texto%", nativeQuery = true)
+
+    @Query("SELECT DISTINCT a FROM Nota a " +
+            "LEFT JOIN FETCH a.usuario u " +
+            "LEFT JOIN FETCH a.notaTag ta " +
+            "LEFT JOIN FETCH ta.idTag t " +
+            " WHERE LOWER(a.descricao) LIKE %(:descricao)")
+    List<Nota> buscaConteudoDescricao(@Param ("descricao") String descricao);
 
     //@Query(value = "SELECT * FROM notes.nota a, notes.tag b where a.descricao ILIKE %:texto% or a.titulo ILIKE %:texto%", nativeQuery = true)
     //List<Nota> buscaConteudoDescricao(String texto);
