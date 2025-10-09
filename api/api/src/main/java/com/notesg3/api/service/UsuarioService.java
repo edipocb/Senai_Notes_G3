@@ -1,5 +1,6 @@
 package com.notesg3.api.service;
 
+import com.notesg3.api.dto.SettingDTO.CadastroSettingDTO;
 import com.notesg3.api.dto.usuario.CadastroUsuarioDTO;
 import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
 import com.notesg3.api.model.Usuario;
@@ -18,11 +19,13 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
     private final EmailsService emailsService;
+    private final SettingService settingService;
 
-    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailsService emailsService) {
+    public UsuarioService(PasswordEncoder passwordEncoder, UsuarioRepository repo, EmailsService emailsService, SettingService settingService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = repo;
         this.emailsService = emailsService;
+        this.settingService = settingService;
     }
 
     public Usuario cadastrarUsuario(CadastroUsuarioDTO dto) {
@@ -33,7 +36,16 @@ public class UsuarioService {
         String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
         usuario.setSenha(senhaCriptografada);
 
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+
+        CadastroSettingDTO dtoSetting = new CadastroSettingDTO();
+        dtoSetting.setUsuario(usuario);
+        dtoSetting.setTheme("Dark");
+        dtoSetting.setFont("Arial");
+
+        settingService.cadastroSetting(dtoSetting);
+
+        return usuario;
     }
 
     public List<ListarUsuarioDTO> listarTodos() {
