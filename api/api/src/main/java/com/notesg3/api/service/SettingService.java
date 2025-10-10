@@ -81,7 +81,6 @@ public class SettingService {
     }
 
     public Setting atualizaSetting(Integer id, CadastroSettingDTO dto) {
-
         Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
 

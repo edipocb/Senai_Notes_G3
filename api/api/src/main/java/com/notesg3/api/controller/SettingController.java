@@ -25,7 +25,6 @@ public class SettingController {
     private SettingService settingService;
 
     public SettingController(SettingService service) {
-
         this.settingService = service;
     }
 
@@ -41,7 +40,6 @@ public class SettingController {
     public ResponseEntity<Setting> cadastroSettings(@RequestBody CadastroSettingDTO dto) {
         Setting setting = settingService.cadastroSetting(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(setting);
-
     }
 
     @GetMapping("/idSetting/{idSetting}")

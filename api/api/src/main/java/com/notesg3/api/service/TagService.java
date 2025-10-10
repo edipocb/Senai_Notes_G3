@@ -1,6 +1,9 @@
 package com.notesg3.api.service;
 
 import com.notesg3.api.dto.TagDTO.CadastroTagDTO;
+import com.notesg3.api.dto.TagDTO.ListaTagDTO;
+import com.notesg3.api.dto.usuario.ListarUsuarioDTO;
+import com.notesg3.api.model.Setting;
 import com.notesg3.api.model.Tag;
 import com.notesg3.api.model.Usuario;
 import com.notesg3.api.repository.TagRepository;
@@ -9,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,61 +29,88 @@ public class TagService {
         this.tagRepository = tag;
         this.usuarioRepository = usuarioRepository;
     }
-    //Listar todas as Tags
 
-    public List<Tag> listarTodos(){
+    public List<ListaTagDTO> listarTodos(){
 
-        return tagRepository.findAll();
+        List<Tag> listaTag= tagRepository.findAll();
+
+        return listaTag.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
     }
 
-    //Insert Into
-    public Tag cadastrarTag(CadastroTagDTO dto){
+    public ListaTagDTO converterParaListagemDTO(Tag tag){
+        ListaTagDTO dto = new ListaTagDTO();
 
+        dto.setIdTag(tag.getIdTag());
+        dto.setNomeTag(tag.getNomeTag());
+        dto.setUsuario(convertUsuarioToDto(tag.getUsuario()));
+
+        return dto;
+    }
+
+    private ListarUsuarioDTO convertUsuarioToDto(Usuario usuario) {
+        ListarUsuarioDTO dto = new ListarUsuarioDTO();
+        dto.setId(usuario.getIdUsuario());
+        dto.setEmail(usuario.getEmail());
+        return dto;
+    }
+
+
+    public Tag cadastrarTag(CadastroTagDTO dto){
         Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
                 .orElseThrow(() -> new EntityNotFoundException("Usuario nao encontrado"));
 
         Tag tag = new Tag();
-
         tag.setNomeTag(dto.getNomeTag());
         tag.setUsuario(usuario);
 
         return tagRepository.save(tag);
-
-
     }
 
-    public Tag buscarPorId(Integer id){
-        return tagRepository.findById(id).orElse(null);
+    public ListaTagDTO buscarPorId(Integer id){
+        Optional<Tag> tag = tagRepository.findById(id);
 
+        if (tag.isEmpty()) {
+            return null;
+        }
+
+        ListaTagDTO dto = converterParaListagemDTO(tag.get());
+
+        return dto;
     }
 
     public Tag deletarTagPorId(Integer id){
-        //1.verificar se a tag ja existe
-        Tag tag = buscarPorId(id);
+        Optional<Tag> tag = tagRepository.findById(id);
 
-        //2. se nao existir, retorno nulo
-        if(tag == null){
+        if(tag.isEmpty()){
             return null;
         }
-        //3.se existir, excluo
-        tagRepository.delete(tag);
-        return tag;
-    }
-    public Tag atualizarTag(Integer id, Tag tag){
-        //1.Procurar quem eu quero atualizar
-        Tag tagAnterior = buscarPorId(id);
 
-        //2.Se eu nao achar retorno null
-        if(tagAnterior == null){
+        tagRepository.delete(tag.get());
+        return tag.get();
+    }
+    public Tag atualizarTag(Integer id, CadastroTagDTO tag){
+        Usuario usuario = usuarioRepository.findById(tag.getIdUsuario())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
+
+        Optional<Tag> tagOptional = tagRepository.findById(id);
+
+        if(tagOptional.isEmpty()){
             return null;
         }
-        //3. se eu achar a tag eu atualizo
-        tagAnterior.setNomeTag(tag.getNomeTag());
-        return tagRepository.save(tagAnterior);
+
+        tagOptional.get().setUsuario(usuario);
+        tagOptional.get().setNomeTag(tag.getNomeTag());
+
+        return tagRepository.save(tagOptional.get());
     }
 
+    public List<ListaTagDTO> buscarTagPorEmail(String email){
+        List<Tag> listaTag = tagRepository.findByUsuarioEmail(email);
 
-    public List<Tag> buscarTagPorEmail(String email){
-        return tagRepository.findByUsuarioEmail(email);
+        return listaTag.stream()
+                .map(this::converterParaListagemDTO)
+                .collect(Collectors.toList());
     }
 }

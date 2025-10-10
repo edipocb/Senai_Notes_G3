@@ -29,40 +29,35 @@ public class NotaController {
     }
 
     @GetMapping("/email/{email}")
-    @Operation(summary = "Lista de Nota por Email do Usuario.", description = "Retorna todas as Notas por Email."
-    )
+    @Operation(summary = "Lista de Nota por Email do Usuario.", description = "Retorna todas as Notas por Email.")
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaPorEmailUsuario(@PathVariable String email) {
         List<ListaNotaDTO> listaNotaPorEmail = notaService.buscarNotaPorEmailUsuario(email);
         return ResponseEntity.ok(listaNotaPorEmail);
     }
 
     @GetMapping("/emailStatus/{email}/{status}")
-    @Operation(summary = "Lista de Nota por Email e Status.", description = "Retorna todas as Notas por Email e Status."
-    )
+    @Operation(summary = "Lista de Nota por Email e Status.", description = "Retorna todas as Notas por Email e Status."    )
     public ResponseEntity<List<ListaNotaDTO>>  buscarNotaPorEmailStatus(@PathVariable String email, @PathVariable boolean status) {
         List<ListaNotaDTO> listaNotaPorEmailStatus = notaService.buscarNotaPorEmailEStatus(email, status);
         return ResponseEntity.ok(listaNotaPorEmailStatus);
     }
 
     @GetMapping("/emailDescricao/{email}/{descricao}")
-    @Operation(summary = "Lista de Nota por Email e conteudo na Descricao.", description = "Retorna todas as Notas por Email e conteudo na descricao."
-    )
+    @Operation(summary = "Lista de Nota por Email e conteudo na Descricao.", description = "Retorna todas as Notas por Email e conteudo na descricao.")
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaEmailAndDescricao(@PathVariable String email, @PathVariable String descricao){
         List<ListaNotaDTO> listaNotas = notaService.listarNotaEmailConteudoDescricao(email, descricao);
         return ResponseEntity.ok(listaNotas);
     }
 
     @GetMapping("/notaDescricao/{descricao}")
-    @Operation(summary = "Lista de Nota por conteudo na Descricao.", description = "Retorna todas as Notas por conteudo na Descricao."
-    )
+    @Operation(summary = "Lista de Nota por conteudo na Descricao.", description = "Retorna todas as Notas por conteudo na Descricao.")
     public ResponseEntity<List<ListaNotaDTO>> buscarNotaDescricao(@PathVariable String descricao){
         List<ListaNotaDTO> listaNota = notaService.buscaConteudoDescricao(descricao);
         return ResponseEntity.ok(listaNota);
     }
 
     @PostMapping
-    @Operation(summary = "Cadastro de Nota.", description = "Cadastro de Nota."
-    )
+    @Operation(summary = "Cadastro de Nota.", description = "Cadastro de Nota.")
     public ResponseEntity<Nota> cadastrarNota(@RequestBody CadastroNotaDTO dto) {
         Nota notaSalvo = notaService.cadastroNota(dto);
 
@@ -70,8 +65,7 @@ public class NotaController {
     }
 
     @GetMapping("/nota/{id}/{status}")
-    @Operation(summary = "Buscar Nota por Id e Status.", description = "Buscar Nota por Id e Status."
-    )
+    @Operation(summary = "Buscar Nota por Id e Status.", description = "Buscar Nota por Id e Status.")
     public ResponseEntity<Nota> buscarNotaIdStatus(@PathVariable Integer id, @PathVariable boolean status) {
         Nota nota = notaService.buscarNotaIdStatus(id, status);
 
@@ -83,8 +77,7 @@ public class NotaController {
     }
 
     @GetMapping("/{id}") //aqui
-    @Operation(summary = "Buscar Nota por Id.", description = "Buscar Nota por Id."
-    )
+    @Operation(summary = "Buscar Nota por Id.", description = "Buscar Nota por Id.")
     public ResponseEntity<ListaNotaDTO> buscarNotaId(@PathVariable Integer id) {
         ListaNotaDTO nota = notaService.buscarNotaPorID(id);
 
@@ -96,8 +89,7 @@ public class NotaController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar Nota por Id.", description = "Atualizar Nota por Id."
-    )
+    @Operation(summary = "Atualizar Nota por Id.", description = "Atualizar Nota por Id.")
     public ResponseEntity<Nota> atualizarNota(@PathVariable Integer id, @RequestBody Nota nota) {
         Nota notaExistente = notaService.atualizarNota(id, nota);
         if (notaExistente == null){
@@ -107,8 +99,7 @@ public class NotaController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete Nota por Id.", description = "Delete Nota por Id."
-    )
+    @Operation(summary = "Delete Nota por Id.", description = "Delete Nota por Id.")
     public ResponseEntity<?> deletarNota(@PathVariable Integer id) {
         Nota nota = notaService.deleteNota(id);
 

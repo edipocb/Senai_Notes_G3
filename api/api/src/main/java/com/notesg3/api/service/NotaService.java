@@ -39,7 +39,6 @@ public class NotaService {
 
     //Listar notas por email
     public List<ListaNotaDTO> buscarNotaPorEmailUsuario(String email) {
-
         List<Nota> lista = notaRepository.findByUsuarioEmail(email);
 
         return lista.stream()
@@ -113,7 +112,6 @@ public class NotaService {
 
     //Crear Notas
     public Nota cadastroNota(CadastroNotaDTO dto) {
-
         Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado!"));
 
